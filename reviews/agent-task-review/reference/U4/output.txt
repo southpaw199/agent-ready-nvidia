@@ -1,0 +1,2 @@
+references.usda: opened in 16.2 ms; 2001 prims traversed; 0 prototype(s)
+instanced.usda: opened in 16.2 ms; 1001 prims traversed; 1 prototype(s)
