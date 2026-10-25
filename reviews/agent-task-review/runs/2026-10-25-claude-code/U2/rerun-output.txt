@@ -1,0 +1,5 @@
+/World/Table displayColor: [(0, 0, 1)]
+/World/Chair displayColor: [(0, 1, 0)]
+Layers with an opinion on /World/Table displayColor (strongest first):
+  1. /home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U2-rerun/overrides.usda  value=[(0, 0, 1)]
+  2. /home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U2-rerun/table.usda  value=[(1, 0, 0)]
