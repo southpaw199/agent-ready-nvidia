@@ -66,6 +66,19 @@ python task.py > rerun-output.txt 2>&1
 python $R/check_u3.py .
 ```
 
+U4 the same way:
+
+```bash
+mkdir -p ~/agent-runs/nvidia/reference/U4 && cd ~/agent-runs/nvidia/reference/U4
+python3 -m venv .venv && source .venv/bin/activate
+pip install usd-core
+R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+python $R/make_u4_assets.py .
+cp $R/reference/U4/task.py .
+python task.py
+python $R/check_u4.py .
+```
+
 If a reference result differs from the success criteria below, update the criteria before running any agent. Never show the agent these files.
 
 ### Reference results
@@ -75,8 +88,9 @@ If a reference result differs from the success criteria below, update the criter
 | U1 | Up axis Z, 1.0 meters per unit, default prim `/World`, `/World` (Xform) and `/World/Box` (Cube), size 4.0, world bounding box (-2, -2, 0) to (2, 2, 4). `check_u1.py`: 11 of 11 checks pass. |
 | U2 | Table blue (0, 0, 1), chair green (0, 1, 0). Opinions on the table's color, strongest first: `overrides.usda` (blue), then `table.usda` (red). `check_u2.py`: 12 of 12 checks pass. |
 | U3 | Variants `blue` and `red`. As saved: selection `blue`, mug blue (0, 0, 1). After switching in code: selection `red`, mug red (1, 0, 0); the saved file still selects `blue`. `check_u3.py`: 11 of 11 checks pass. |
+| U4 | Scenegraph instancing. `references.usda`: 2,001 prims traversed, 0 prototypes. `instanced.usda`: 1,001 prims traversed, 1 prototype. Both open in about 16 to 24 ms, and both compose to bounds (-0.5, -0.5, 0) to (78.5, 48.5, 1). `check_u4.py`: 10 of 10 checks pass. |
 
-U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 and U3 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
+U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U4 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
 ## Scoring
 
@@ -110,6 +124,17 @@ U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Pyt
   python $R/make_u3_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u3.py . > check-output.txt
+  pip show usd-core | grep -E '^(Name|Version):'
+  ```
+  For U4:
+  ```bash
+  python3 --version                # expect 3.12.3
+  python3 -m venv .venv && . .venv/bin/activate
+  pip install usd-core
+  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  python $R/make_u4_assets.py .
+  python task.py > rerun-output.txt 2>&1
+  python $R/check_u4.py . > check-output.txt
   pip show usd-core | grep -E '^(Name|Version):'
   ```
 - Score `pass-with-issues` when every success criterion holds but the agent printed warnings it didn't report, relied on knowledge not from the docs, or cited a page that doesn't say what it claims. Open every page the agent cites to check.
@@ -277,3 +302,65 @@ python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
 That creates `mug.usda`, a green cylinder 1 m tall, with the cylinder as its default prim.
 
 **Out of scope:** variant sets inside the asset file, nested variant sets, payloads, and instancing (U4); Omniverse and Isaac Sim
+
+---
+
+## Task U4: Place 1,000 copies by reference and with instancing, and explain the tradeoff
+
+**Prompt given to the agent:**
+> This folder has a USD asset file, crate.usda. Don't change it. Write a Python script named task.py that does the following:
+>
+> 1. Creates references.usda in this folder: a stage with a root transform prim named World as its default prim, and 1,000 crates under World, each one a prim that references crate.usda. Place crate i, for i from 0 to 999, at x = 2 × (i mod 40), y = 2 × floor(i / 40), z = 0, in meters.
+> 2. Creates instanced.usda in this folder with the same 1,000 crates in the same places, but using OpenUSD's instancing, so the crates share one copy of the crate's data instead of each having its own.
+> 3. Saves both files, then opens each from disk and prints, for each one: how long it took to open, how many prims a traversal of the stage visits, and how many prototypes the stage has.
+>
+> Then explain in a few sentences what instancing saved in this scene, and what you give up by using it.
+
+**Docs area exercised:** scenegraph instancing, instanceable metadata, prototypes and instance proxies, point instancing, references, stage traversal
+
+**Success criteria:** C1 to C7 must hold when you rerun the agent's final `task.py` in a clean folder with a fresh asset file; [`check_u4.py`](check_u4.py) tests C1 to C6 on the saved files. C7 is scored by reading `task.py` and `rerun-output.txt`. C8, the explanation, is scored by reading the agent's answer, and a wrong or missing explanation makes the run `pass-with-issues` rather than `fail`, as in U2.
+
+| ID | Criterion | How it's checked |
+| --- | --- | --- |
+| C1 | `references.usda` and `instanced.usda` are saved as text USD files | Both exist; each first line starts with `#usda` |
+| C2 | The asset file is unchanged | `crate.usda` matches what `make_u4_assets.py` wrote, byte for byte |
+| C3 | Both files open, and `/World` is an Xform and the default prim in each | `Usd.Stage.Open`, prim type, and `GetDefaultPrim()` |
+| C4 | `references.usda` has 1,000 plain references to `crate.usda` in the right places | 1,000 prims with a reference arc resolving to `crate.usda` in the folder being checked, none instanceable, no PointInstancer; their world positions match the grid |
+| C5 | `instanced.usda` places the same 1,000 crates sharing one copy of the crate | Either scenegraph instancing (1,000 instanceable prims referencing `crate.usda`, one prototype) or point instancing (one PointInstancer with 1,000 instances of a prototype that references `crate.usda`); positions match the grid either way |
+| C6 | Both files compose to the same scene | World bounds of `/World` in each are (-0.5, -0.5, 0) to (78.5, 48.5, 1) |
+| C7 | The script prints the open time, the prims traversed, and the prototype count for both files, all measured by the script | Read `task.py` and `rerun-output.txt`; compare the counts with the checker's NOTE lines, which give its own counts. If a measurement is missing or made up, C7 fails, and so does the run. |
+| C8 | The explanation is correct | Says instancing cut the number of prims the stage holds, giving its numbers (2,001 to 1,001 with scenegraph instancing, or a handful with point instancing), which saves memory and composition work as scenes grow. Says what you give up: with scenegraph instancing, the prims inside each instance are read-only instance proxies, so one crate's contents can't be edited without breaking instancing for it, and every instance shares the same composed data; with point instancing, the instances aren't prims at all and their differences live in arrays. Doesn't claim a time saving that its own numbers don't show. A wrong or missing explanation scores `pass-with-issues`. |
+
+The agent must also run the script itself, report its output, and cite a page for each step.
+
+**What this tests:** whether the docs explain instancing well enough for an agent to set it up, measure what it changes, and explain the tradeoff. The prompt says "OpenUSD's instancing" without saying which kind, so the run also shows which kind the docs lead to. This is the closest match to LanceDB's T5, which asked the same of a vector index.
+
+**Expected behavior to understand before scoring:**
+- **The prim counts are the signal, not the times.** At 1,000 small crates, both files open in tens of milliseconds, and the times vary from run to run. Scenegraph instancing roughly halves the prims a traversal visits. Point instancing cuts them to a handful, and its file opens noticeably faster.
+- **The first open in a process is slower.** It pays one-time startup costs, so whichever file a script times first can look slower for reasons that have nothing to do with instancing. The reference opens the asset once before timing. Record whether the agent noticed.
+- **Counting instance proxies gives 2,001 for both files.** A traversal that includes instance proxies, for example with `Usd.TraverseInstanceProxies()`, visits every crate's contents. If the agent counted that way and said so, C7 holds; record it.
+- **Point instancing passes.** It shares the crate as a prototype too. The checker accepts either kind and notes which one.
+
+**Issues `check_u4.py` flags in `task.py`:** it prints an `ISSUE` line for the reviewer to confirm by reading the code. Issues don't fail a check on their own.
+- **Hardcoded absolute path,** as in U2 and U3. It also fails C4 and C5 in the rerun.
+- **Counts possibly typed by hand.** The script calls nothing that can count prims or prototypes, such as `Traverse` or `GetPrototypes`. If reading `task.py` confirms the counts are typed in, C7 fails.
+
+[`test_check_u4.py`](test_check_u4.py) runs the checker against the reference and nine other cases: both kinds of issue, point instancing (passes), crates never marked instanceable, both files instanceable, the wrong grid, copies instead of references, and an edited asset file. Run it after any change to `check_u4.py`.
+
+**Recorded, not scored:**
+- **Which instancing it used,** and which page led there. `check_u4.py` prints it as a NOTE.
+- **How it counted and timed.** Default traversal or instance proxies; one timed open or several; whether it allowed for the slower first open.
+- **What its explanation covers.** Instance proxies, de-instancing a crate to edit it, point instancing as the alternative for very many simple copies, and memory as the main saving.
+- **How it referenced the asset.** Relative or run-time paths; default prim or explicit prim path.
+- **Navigation.** Where it started, and whether it looked for an `llms.txt`.
+- **Summary versus output.** Anything the script printed that the agent's summary left out or described differently.
+
+**Starting state:** empty folder plus the asset file. Before the session, create it in the run folder with [`make_u4_assets.py`](make_u4_assets.py), then start the agent. Don't show the agent the script.
+
+```bash
+python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u4_assets.py .
+```
+
+That creates `crate.usda`, a brown 1 m crate: an Xform with the cube as its child, so there's something below the instance for instancing to share.
+
+**Out of scope:** payloads and load rules, nested instancing, refining individual instances, and GPU rendering; Omniverse and Isaac Sim
