@@ -10,7 +10,7 @@
 | Operating system | Ubuntu 24.04 under WSL 2 on Windows 11 |
 | Python | 3.12.3 |
 | usd-core | 26.11 (agent's install and the rerun) |
-| Working folder | A new, empty folder, `~/agent-runs/nvidia/2026-10-25-claude-code/U1/`, outside this repository; the rerun was in `U1-rerun/` beside it |
+| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-25-claude-code/` (`U1/`, `U2/`), outside this repository; each rerun was in a `-rerun` folder beside it, such as `U1-rerun/` |
 | User instructions | None (`~/.claude/CLAUDE.md` absent) |
 | Auto memory | Off (`autoMemoryEnabled: false`) |
 | claude.ai connectors | Off (`disableClaudeAiConnectors: true`) |
@@ -20,11 +20,12 @@
 
 ## Entry points on the day of the run
 
-Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returned the 27-line course index. The agent used neither.
+Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returned the 27-line course index. Rechecked before U2 the same day, with the same results. The agent used neither in either task.
 
 ## Notes
 
-- One web search was rejected at the permission prompt with the note "Yes within the allowed domains", which the reviewer meant as approval. The agent read it as a decline and fetched pages directly instead. It isn't counted as a hint, because it said nothing about the task.
+- U2 was run as a pilot, before U3 to U5 were written, to test the task design. Nothing in the run called for a change to U2. Before the session, [`make_u2_assets.py`](../../make_u2_assets.py) created `table.usda` and `chair.usda` in the empty folder, and the rerun created fresh copies in its own folder.
+- In U1, one web search was rejected at the permission prompt with the note "Yes within the allowed domains", which the reviewer meant as approval. The agent read it as a decline and fetched pages directly instead. It isn't counted as a hint, because it said nothing about the task.
 - The reviewer reran the agent's `task.py` on 2026-10-25 in a clean folder with a fresh virtual environment, Python 3.12.3, and usd-core 26.11, using the commands in [tasks.md](../../tasks.md#scoring).
 - `/export` collapses shell commands and search results. The commands, search domains, and returned URLs described in the run log come from the session's full log.
 
@@ -33,5 +34,6 @@ Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https:/
 | Task | Outcome | Hints | Folder |
 | --- | --- | --- | --- |
 | U1 | pass-with-issues | 0 | [U1](U1/) |
+| U2 | pass-with-issues | 0 | [U2](U2/) |
 
 Each task folder holds the agent's final `task.py` and the exported conversation, `transcript.md`. Unlike the LanceDB runs, every task folder also holds `rerun-output.txt`, the output of the agent's `task.py` rerun in a clean folder, and `check-output.txt`, the result of [`check_u1.py`](../../check_u1.py) on the `scene.usda` that rerun saved.
