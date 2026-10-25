@@ -1,0 +1,30 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Chair>: Could not open asset @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_chair.usda@ for reference introduced by @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/broken_reference.usda@</World/Chair>. (instantiating stage on stage @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/broken_reference.usda@ <0x3733c590>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_chair.usda@ with computed asset path @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_chair.usda@ found in layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/broken_reference.usda@.
+Warning: in SdfPath at line 129 of /opt/USD/pxr/usd/sdf/path.cpp -- Ill-formed SdfPath </tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_chair.usda> at character 12 ('-'): expected end of path
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Shelf>: Could not open asset @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_books.usda@ for reference introduced by @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/shelf.usda@</Shelf>. (instantiating stage on stage @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/nested_broken_reference.usda@ <0x3733c590>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./missing_books.usda@ with computed asset path @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_books.usda@ found in layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/shelf.usda@.
+Warning: in SdfPath at line 129 of /opt/USD/pxr/usd/sdf/path.cpp -- Ill-formed SdfPath </tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_books.usda> at character 12 ('-'): expected end of path
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Rug>: Could not open asset @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_rug.usda@ for payload introduced by @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/two_problems.usda@</World/Rug>. (instantiating stage on stage @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/two_problems.usda@ <0x3735c570>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_rug.usda@ with computed asset path @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_rug.usda@ found in layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/two_problems.usda@.
+Warning: in SdfPath at line 129 of /opt/USD/pxr/usd/sdf/path.cpp -- Ill-formed SdfPath </tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/main/parts/missing_rug.usda> at character 12 ('-'): expected end of path
+{
+  "broken_reference.usda": [
+    "broken_reference"
+  ],
+  "good.usda": [],
+  "nested_broken_reference.usda": [
+    "broken_reference"
+  ],
+  "no_units.usda": [
+    "missing_meters_per_unit"
+  ],
+  "no_up_axis.usda": [
+    "missing_up_axis"
+  ],
+  "two_problems.usda": [
+    "broken_reference",
+    "missing_meters_per_unit",
+    "missing_up_axis"
+  ],
+  "y_up_centimeters.usda": []
+}
