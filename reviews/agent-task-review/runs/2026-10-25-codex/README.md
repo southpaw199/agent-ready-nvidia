@@ -25,7 +25,7 @@ Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https:/
 
 ## Notes
 
-- Old Codex app-server processes from the LanceDB runs, version 0.164.0, were still running before this run. They were stopped first, so this session started its own server.
+- Codex app-server processes started during the LanceDB runs were still running before this run. Codex's scheduled updater had updated them in place from 0.163.0 to 0.164.0 on 2026-10-23, after the LanceDB runs finished. They were stopped first, so this session started its own server. The session log confirms 0.164.0 for this run.
 - The sandbox blocked network access until a command was approved, so the first page fetch and the first `pip install` failed, then succeeded once approved, as in the LanceDB runs.
 - Codex saved each docs page it downloaded in its folder (`docs_*.html` and `.txt`) and wrote its citations to `SOURCES.md`. The saved pages aren't kept here; `SOURCES.md` is.
 - The reviewer reran the agent's `task.py` on 2026-10-25 in a clean folder with a fresh virtual environment, Python 3.12.3, and usd-core 26.11, using the commands in [tasks.md](../../tasks.md#scoring).
