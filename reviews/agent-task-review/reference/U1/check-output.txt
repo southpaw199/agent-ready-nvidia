@@ -1,0 +1,16 @@
+PASS  C1  file: scene.usda
+PASS  C1  first line: '#usda 1.0' (text .usda expected)
+PASS  C2  opens with Usd.Stage.Open
+PASS  C3  upAxis authored: True, value: Z
+PASS  C3  metersPerUnit authored: True, value: 1.0
+PASS  C4  defaultPrim: /World
+PASS  C4  /World type: Xform
+PASS  C5  /World/Box type: Cube
+PASS  C5  size: 4.0
+PASS  C5  displayColor: [Gf.Vec3f(1.0, 0.0, 0.0)]
+PASS  C6  world bound: min (-2, -2, 0), max (2, 2, 4) (expected (-2,-2,0) to (2,2,4))
+NOTE  extent authored: True; extent attribute returns [Gf.Vec3f(-2.0, -2.0, -2.0), Gf.Vec3f(2.0, 2.0, 2.0)]
+NOTE  xformOpOrder: ['xformOp:translate']
+NOTE  other prims: none
+
+11 of 11 checks passed
