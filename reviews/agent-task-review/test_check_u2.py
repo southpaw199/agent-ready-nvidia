@@ -34,7 +34,7 @@ STACK_LOOP = """for spec in table_color.GetPropertyStack(Usd.TimeCode.Default())
 def edit(old, new):
     def apply(src, agent_dir):
         assert old in src, f"case no longer matches the reference: {old!r}"
-        return src.replace(old, new.format(agent=agent_dir))
+        return src.replace(old, new.replace("{agent}", str(agent_dir)))
     return apply
 
 

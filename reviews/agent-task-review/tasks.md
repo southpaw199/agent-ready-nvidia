@@ -53,6 +53,19 @@ python task.py
 python $R/check_u2.py .
 ```
 
+U3 works the same way, with its own asset file:
+
+```bash
+mkdir -p ~/agent-runs/nvidia/reference/U3 && cd ~/agent-runs/nvidia/reference/U3
+python3 -m venv .venv && source .venv/bin/activate
+pip install usd-core
+R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+python $R/make_u3_assets.py .
+cp $R/reference/U3/task.py .
+python task.py > rerun-output.txt 2>&1
+python $R/check_u3.py .
+```
+
 If a reference result differs from the success criteria below, update the criteria before running any agent. Never show the agent these files.
 
 ### Reference results
@@ -61,8 +74,9 @@ If a reference result differs from the success criteria below, update the criter
 | --- | --- |
 | U1 | Up axis Z, 1.0 meters per unit, default prim `/World`, `/World` (Xform) and `/World/Box` (Cube), size 4.0, world bounding box (-2, -2, 0) to (2, 2, 4). `check_u1.py`: 11 of 11 checks pass. |
 | U2 | Table blue (0, 0, 1), chair green (0, 1, 0). Opinions on the table's color, strongest first: `overrides.usda` (blue), then `table.usda` (red). `check_u2.py`: 12 of 12 checks pass. |
+| U3 | Variants `blue` and `red`. As saved: selection `blue`, mug blue (0, 0, 1). After switching in code: selection `red`, mug red (1, 0, 0); the saved file still selects `blue`. `check_u3.py`: 11 of 11 checks pass. |
 
-U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 was run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
+U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 and U3 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
 ## Scoring
 
@@ -85,6 +99,17 @@ U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Pyt
   python $R/make_u2_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u2.py . > check-output.txt
+  pip show usd-core | grep -E '^(Name|Version):'
+  ```
+  For U3, the same, with its own asset script and checker. The checker also reads `rerun-output.txt`, so keep that name:
+  ```bash
+  python3 --version                # expect 3.12.3
+  python3 -m venv .venv && . .venv/bin/activate
+  pip install usd-core
+  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  python $R/make_u3_assets.py .
+  python task.py > rerun-output.txt 2>&1
+  python $R/check_u3.py . > check-output.txt
   pip show usd-core | grep -E '^(Name|Version):'
   ```
 - Score `pass-with-issues` when every success criterion holds but the agent printed warnings it didn't report, relied on knowledge not from the docs, or cited a page that doesn't say what it claims. Open every page the agent cites to check.
@@ -192,3 +217,63 @@ python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
 That creates `table.usda` (a red 2 m cube) and `chair.usda` (a green 1 m cube, 3 m along x), each with its cube as the default prim.
 
 **Out of scope:** variant sets, payloads, inherits, and other arcs (later tasks); Omniverse and Isaac Sim
+
+---
+
+## Task U3: Add a variant set and switch between its variants in code
+
+**Prompt given to the agent:**
+> This folder has a USD asset file, mug.usda. Don't change it. Write a Python script named task.py that does the following:
+>
+> 1. Creates a new USD stage and saves it as scene.usda in this folder, with a root transform prim named World as its default prim, and adds the mug by referencing mug.usda at /World/Mug.
+> 2. In scene.usda, gives /World/Mug a variant set named color with two variants, red and blue, that set the mug's display color to (1, 0, 0) and (0, 0, 1). Don't set the display color anywhere else in scene.usda.
+> 3. Selects the blue variant and saves the stage.
+> 4. Reopens scene.usda from disk and prints the variant set's variants, the current selection, and the mug's display color. Then switches the selection to red in code and prints the selection and color again. When the script finishes, scene.usda on disk should still select blue.
+
+**Docs area exercised:** variant sets and variants, variant edit contexts, variant selections, references, edit targets and the session layer
+
+**Success criteria:** C1 to C7 must hold when you rerun the agent's final `task.py` in a clean folder with a fresh asset file. [`check_u3.py`](check_u3.py) tests C1 to C6 on the saved file; C7 is scored by reading `task.py` and `rerun-output.txt`, with help from the checker's `ISSUE` lines.
+
+| ID | Criterion | How it's checked |
+| --- | --- | --- |
+| C1 | `scene.usda` is saved as a text USD file | First line starts with `#usda` |
+| C2 | The asset file is unchanged | `mug.usda` matches what `make_u3_assets.py` wrote, byte for byte |
+| C3 | `scene.usda` opens, and `/World` is an Xform and the default prim | `Usd.Stage.Open`, prim type, and `GetDefaultPrim()` |
+| C4 | `/World/Mug` references `mug.usda` in the same folder | A reference arc, found with `Usd.PrimCompositionQuery`, resolving to the file in the folder being checked; composed type Cylinder |
+| C5 | `scene.usda` gives `/World/Mug` a variant set `color` with exactly the variants `red` and `blue`, and the saved selection is `blue` | The root layer's prim spec lists the variant set; `GetVariantNames()` and `GetVariantSelection()` on the reopened stage |
+| C6 | Each variant carries its color, and nothing else sets it in `scene.usda` | As saved, the mug is blue. The checker selects each variant in the session layer: red gives (1, 0, 0) and blue gives (0, 0, 1), with the strongest opinion inside that variant. No display color is authored on `/World/Mug` outside the variants. |
+| C7 | The script switches to red in code and prints the selection and color both before and after | `check_u3.py` flags an output that doesn't show both colors. Confirm by reading `task.py`: the switch must happen in the script, not by reopening a file the script saved with red. If reading confirms the switch is missing or broken, C7 fails, and so does the run. |
+
+The agent must also run the script itself, report its output, and cite a page for each step.
+
+**What this tests:** whether the docs explain how to author a variant set on a prim that references an asset, put opinions inside each variant, and switch between variants in code without changing the saved file. That last part is where the docs on edit targets and the session layer come in, though the prompt doesn't name either.
+
+**Expected behavior to understand before scoring:**
+- **Switching on the stage is fine if it isn't saved.** `SetVariantSelection` on the reopened stage edits the root layer in memory. That passes, as long as the script doesn't save afterward. Switching in the session layer passes too, and leaves nothing to save by accident. The checker notes which one the agent used.
+- **Saving after the switch is the trap.** A script that switches to red and then calls `Save()` leaves `scene.usda` selecting red, and fails C5 and C6.
+- **A color set directly on `/World/Mug` wins over the variants.** A local opinion outside the variants is stronger than one inside them (L before V in LIVERPS), so switching variants no longer changes the color. C6 fails, and the output shows no red.
+
+**Issues `check_u3.py` flags:** it prints an `ISSUE` line for the reviewer to confirm. Issues don't fail a check on their own.
+- **Hardcoded absolute path** in `task.py`, as in U2. It also fails C4 in the rerun.
+- **No red or blue in `rerun-output.txt`.** The output doesn't show both colors, so the switch may be missing or broken. Read `task.py` to confirm. If it is, C7 fails. If `task.py` does switch and only prints the colors in a form the checker didn't recognize, C7 holds; note the false alarm in `notes`.
+
+[`test_check_u3.py`](test_check_u3.py) runs the checker against the reference and eight other cases: both kinds of issue, switching without the session layer (passes), switching and then saving, a color set outside the variants, variants named `Red` and `Blue`, and an edited asset file. Run it after any change to `check_u3.py`.
+
+**Recorded, not scored:**
+- **How it switched.** In the session layer, on the stage without saving, or something else, and which page led to it. `check_u3.py` notes whether `task.py` uses the session layer.
+- **How it authored the variants.** `GetVariantEditContext()`, an edit target, or Sdf specs written directly, and which page.
+- **Whether it noticed the save trap.** Did it explain why the saved file still selects blue, or just get there?
+- **How it referenced the asset.** Relative or run-time paths; default prim or explicit prim path.
+- **Stage metadata.** Whether it set `upAxis` and `metersPerUnit` on `scene.usda`. Not required here.
+- **Navigation.** Where it started, and whether it looked for an `llms.txt`.
+- **Summary versus output.** Anything the script printed that the agent's summary left out or described differently.
+
+**Starting state:** empty folder plus the asset file. Before the session, create it in the run folder with [`make_u3_assets.py`](make_u3_assets.py), then start the agent. Don't show the agent the script.
+
+```bash
+python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u3_assets.py .
+```
+
+That creates `mug.usda`, a green cylinder 1 m tall, with the cylinder as its default prim.
+
+**Out of scope:** variant sets inside the asset file, nested variant sets, payloads, and instancing (U4); Omniverse and Isaac Sim
