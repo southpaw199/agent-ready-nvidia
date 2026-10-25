@@ -40,6 +40,19 @@ python task.py
 python $R/check_u1.py scene.usda
 ```
 
+U2 needs its asset files in the folder first:
+
+```bash
+mkdir -p ~/agent-runs/nvidia/reference/U2 && cd ~/agent-runs/nvidia/reference/U2
+python3 -m venv .venv && source .venv/bin/activate
+pip install usd-core
+R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+python $R/make_u2_assets.py .
+cp $R/reference/U2/task.py .
+python task.py
+python $R/check_u2.py .
+```
+
 If a reference result differs from the success criteria below, update the criteria before running any agent. Never show the agent these files.
 
 ### Reference results
@@ -47,19 +60,31 @@ If a reference result differs from the success criteria below, update the criter
 | Task | Reference result |
 | --- | --- |
 | U1 | Up axis Z, 1.0 meters per unit, default prim `/World`, `/World` (Xform) and `/World/Box` (Cube), size 4.0, world bounding box (-2, -2, 0) to (2, 2, 4). `check_u1.py`: 11 of 11 checks pass. |
+| U2 | Table blue (0, 0, 1), chair green (0, 1, 0). Opinions on the table's color, strongest first: `overrides.usda` (blue), then `table.usda` (red). `check_u2.py`: 12 of 12 checks pass. |
 
-Run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. The output, the saved file, and the check output are in [`reference/U1/`](reference/U1/).
+U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 was run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
 ## Scoring
 
 - **Outcome** and **root cause** use the categories in the [rubric](../../../../methods/agent-task-review/rubric.md), as of method version 0.2.
-- A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into a new folder beside the agent's, for example `~/agent-runs/nvidia/2026-10-25-codex/U1-rerun/`, then:
+- A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into a new folder beside the agent's, for example `~/agent-runs/nvidia/2026-10-25-codex/U1-rerun/`, then run the commands for that task. For U1:
   ```bash
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
   python task.py > rerun-output.txt 2>&1
   python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/check_u1.py scene.usda > check-output.txt
+  pip show usd-core | grep -E '^(Name|Version):'
+  ```
+  For U2, create fresh asset files in the rerun folder first, so the rerun can't use the agent's copies:
+  ```bash
+  python3 --version                # expect 3.12.3
+  python3 -m venv .venv && . .venv/bin/activate
+  pip install usd-core
+  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  python $R/make_u2_assets.py .
+  python task.py > rerun-output.txt 2>&1
+  python $R/check_u2.py . > check-output.txt
   pip show usd-core | grep -E '^(Name|Version):'
   ```
 - Score `pass-with-issues` when every success criterion holds but the agent printed warnings it didn't report, relied on knowledge not from the docs, or cited a page that doesn't say what it claims. Open every page the agent cites to check.
@@ -106,3 +131,64 @@ The agent must also run the script itself, report its output, and cite a page fo
 **Starting state:** empty folder; fresh virtual environment
 
 **Out of scope:** Omniverse, Isaac Sim, and any RTX GPU; NVIDIA accounts; building OpenUSD from source
+
+---
+
+## Task U2: Reference two assets and override one in a stronger layer
+
+**Prompt given to the agent:**
+> This folder has two USD asset files, table.usda and chair.usda. Don't change them. Write a Python script named task.py that does the following:
+>
+> 1. Creates a new USD stage and saves it as scene.usda in this folder, with a root transform prim named World as its default prim.
+> 2. Adds the table and the chair to the scene by referencing the two asset files, at /World/Table and /World/Chair.
+> 3. Changes the table's display color to blue (0, 0, 1) in a second layer, overrides.usda, in this folder. scene.usda should bring in overrides.usda so that its opinion is stronger than the asset's. Don't set the color anywhere else.
+> 4. Saves the stage and the new layer, then reopens scene.usda from disk and prints: the table's and the chair's display colors as composed, and each layer that has an opinion about the table's display color, strongest first.
+>
+> Then explain in a few sentences which opinion about the table's color wins, and why, in terms of OpenUSD's strength ordering.
+
+**Docs area exercised:** layers and sublayers, references, default prims, edit targets, composition and LIVERPS strength ordering
+
+**Success criteria:** C1 to C6 must hold when you rerun the agent's final `task.py` in a clean folder with fresh asset files; [`check_u2.py`](check_u2.py) tests them on the saved files. C7 is scored by reading the agent's answer, and a wrong or missing explanation makes the run `pass-with-issues` rather than `fail`.
+
+| ID | Criterion | How it's checked |
+| --- | --- | --- |
+| C1 | `scene.usda` and `overrides.usda` are saved as text USD files | Both exist; each first line starts with `#usda` |
+| C2 | The asset files are unchanged | `table.usda` and `chair.usda` match what `make_u2_assets.py` wrote, byte for byte |
+| C3 | `scene.usda` opens, and `/World` is an Xform and the default prim | `Usd.Stage.Open`, prim type, and `GetDefaultPrim()` |
+| C4 | `/World/Table` and `/World/Chair` reference `table.usda` and `chair.usda` in the same folder | A reference arc to each asset, found with `Usd.PrimCompositionQuery`, resolving to the file in the folder being checked; composed type Cube |
+| C5 | `overrides.usda` is composed into `scene.usda` | `overrides.usda` is among the stage's used layers, by any arc. How it was brought in is recorded, not scored |
+| C6 | The table is blue, the chair is still green, and the table's color comes from `overrides.usda` | Composed `primvars:displayColor`; the attribute's property stack has `overrides.usda` first and no opinion in `scene.usda` |
+| C7 | The explanation is correct for how the agent brought in `overrides.usda` | **As a sublayer** (the expected route): the override wins because a sublayer of the scene's root layer holds local opinions (the L in LIVERPS), which are stronger than opinions from references (the R). **As a second reference on the table:** both opinions come through references (the R), and the earlier reference in the list is stronger. Either way, it says the red in `table.usda` is still there, only weaker. A wrong or missing explanation scores `pass-with-issues`. |
+
+The agent must also run the script itself, report its output, and cite a page for each step.
+
+**What this tests:** whether the docs lead an agent to sublayers, the usual way to layer a change over a scene, when the prompt describes only the outcome and never names them; whether they explain references and editing a specific layer well enough to change a scene without touching its assets; and whether they explain strength ordering clearly enough for the agent to say why the override wins. An agent that edits `table.usda`, or sets the color in `scene.usda`, gets a blue table but fails C2 or C6: that isn't a layered change, and in a pipeline it would overwrite someone else's asset or bury the change where no one expects it.
+
+**Expected behavior to understand before scoring:** opinions authored in `scene.usda` itself are stronger than those in its sublayers. If an agent sets the color in both, the table takes the `scene.usda` value, and C6 fails even though `overrides.usda` is correct. An agent that brings in `overrides.usda` as a second reference passes C1 to C6 if that reference comes first in the list, and fails C6 if it comes after the asset's, because a later reference is weaker.
+
+**Issues `check_u2.py` flags in `task.py`:** it reads the agent's script and prints an `ISSUE` line for the reviewer to confirm by reading the code. Issues don't fail a check on their own.
+- **Hardcoded absolute path.** Paths must be built at run time, for example from `__file__`, or be relative. A hardcoded path to the agent's own folder also fails C4 in the rerun, because the references point back at the agent's folder instead of the rerun's.
+- **Layer list possibly typed by hand.** The script calls nothing that can list opinions, such as `GetPropertyStack` or `PrimCompositionQuery`. If reading `task.py` confirms the list is typed in rather than computed, score `pass-with-issues`, even when C1 to C7 hold.
+
+[`test_check_u2.py`](test_check_u2.py) runs the checker against the reference and eight other cases: both issues above, five known mistakes, and the override brought in as a reference ahead of the asset, which passes. It confirms each case fails exactly the expected criteria. Run it after any change to `check_u2.py`.
+
+**Recorded, not scored:**
+- **How it brought in `overrides.usda`. The main observation for this task.** A sublayer, a second reference, or something else, and which page led it there. `check_u2.py` prints it as a NOTE, with the table's composition arcs in strength order.
+- **How it referenced the assets.** Relative paths, or absolute ones built at run time; the asset's default prim or an explicit prim path. `check_u2.py` prints both as NOTEs.
+- **If it used a sublayer, how it added it.** `subLayerPaths.append` or `insert`, or another API.
+- **How it wrote the override.** An edit target (`Usd.EditContext` or `stage.SetEditTarget`), Sdf specs written directly, or text. Any of these passes.
+- **How it found the layers to print.** Which API it used, and which page led to it.
+- **Stage metadata.** Whether it set `upAxis` and `metersPerUnit` on `scene.usda`, as in U1. Not required here.
+- **Strength ordering source.** Which page it cited for LIVERPS, and whether it says LIVERPS or LIVRPS.
+- **Navigation.** Where it started, and whether it looked for an `llms.txt`.
+- **Summary versus output.** Anything the script printed that the agent's summary left out or described differently.
+
+**Starting state:** empty folder plus the asset files. Before the session, create them in the run folder with [`make_u2_assets.py`](make_u2_assets.py), then start the agent. Don't show the agent the script.
+
+```bash
+python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u2_assets.py .
+```
+
+That creates `table.usda` (a red 2 m cube) and `chair.usda` (a green 1 m cube, 3 m along x), each with its cube as the default prim.
+
+**Out of scope:** variant sets, payloads, inherits, and other arcs (later tasks); Omniverse and Isaac Sim
