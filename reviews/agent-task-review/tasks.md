@@ -92,7 +92,7 @@ If a reference result differs from the success criteria below, update the criter
 
 U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U4 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these.
 
-The reviewer confirmed the U2 to U4 references independently the same day, in `~/agent-runs/nvidia/reference/`, with Python 3.12.3 and usd-core 26.11. Every check passed, and the outputs matched the ones recorded here: identical for U2 and U3, and the same counts for U4, which opened in 13.8 and 15.1 ms. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
+The reviewer confirmed the U2 to U4 references independently the same day, in `~/agent-runs/nvidia/reference/`, with Python 3.12.3 and usd-core 26.11. Every check passed, and the outputs matched the ones recorded here: identical for U2 and U3, and the same counts for U4, which opened in 13.8 and 15.1 ms. The reviewer also ran the three checker tests, `test_check_u2.py`, `test_check_u3.py`, and `test_check_u4.py`: 9 of 9, 9 of 9, and 10 of 10 cases behaved as expected. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
 ## Scoring
 
