@@ -79,6 +79,23 @@ python task.py
 python $R/check_u4.py .
 ```
 
+U5 runs on two sets of files, the main set and the holdout set:
+
+```bash
+R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+mkdir -p ~/agent-runs/nvidia/reference/U5 && cd ~/agent-runs/nvidia/reference/U5
+python3 -m venv .venv && source .venv/bin/activate
+pip install usd-core
+for s in main holdout; do
+  mkdir -p $s && cd $s
+  python $R/make_u5_assets.py . $([ $s = holdout ] && echo --holdout)
+  cp $R/reference/U5/task.py .
+  python task.py > output.txt 2>&1
+  python $R/check_u5.py .
+  cd ..
+done
+```
+
 If a reference result differs from the success criteria below, update the criteria before running any agent. Never show the agent these files.
 
 ### Reference results
@@ -89,8 +106,9 @@ If a reference result differs from the success criteria below, update the criter
 | U2 | Table blue (0, 0, 1), chair green (0, 1, 0). Opinions on the table's color, strongest first: `overrides.usda` (blue), then `table.usda` (red). `check_u2.py`: 12 of 12 checks pass. |
 | U3 | Variants `blue` and `red`. As saved: selection `blue`, mug blue (0, 0, 1). After switching in code: selection `red`, mug red (1, 0, 0); the saved file still selects `blue`. `check_u3.py`: 11 of 11 checks pass. |
 | U4 | Scenegraph instancing. `references.usda`: 2,001 prims traversed, 0 prototypes. `instanced.usda`: 1,001 prims traversed, 1 prototype. Both open in about 16 to 24 ms, and both compose to bounds (-0.5, -0.5, 0) to (78.5, 48.5, 1). `check_u4.py`: 10 of 10 checks pass. |
+| U5 | Built-in `UsdValidation` validators. Main set: `good.usda` and `y_up_centimeters.usda` clean; `no_up_axis.usda`, `no_units.usda`, `broken_reference.usda`, and `nested_broken_reference.usda` one code each; `two_problems.usda` all three. Holdout set: `kitchen.usda` clean, `attic.usda` broken reference (a missing sublayer), `garage.usda` both metadata codes, `cellar.usda` missing up axis and a broken reference (a missing payload). `check_u5.py`: 13 of 13 on the main set and 9 of 9 on the holdout set. |
 
-U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U4 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these.
+U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U5 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these.
 
 The reviewer confirmed the U2 to U4 references independently the same day, in `~/agent-runs/nvidia/reference/`, with Python 3.12.3 and usd-core 26.11. Every check passed, and the outputs matched the ones recorded here: identical for U2 and U3, and the same counts for U4, which opened in 13.8 and 15.1 ms. The reviewer also ran the three checker tests, `test_check_u2.py`, `test_check_u3.py`, and `test_check_u4.py`: 9 of 9, 9 of 9, and 10 of 10 cases behaved as expected. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
@@ -137,6 +155,22 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
   python $R/make_u4_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u4.py . > check-output.txt
+  pip show usd-core | grep -E '^(Name|Version):'
+  ```
+  For U5, rerun twice, on the main set in `U5-rerun/` and on the holdout set in `U5-rerun-holdout/`, copying only `task.py` into each. The holdout rerun shows whether the script works on files it hasn't seen (C6).
+  ```bash
+  python3 --version                # expect 3.12.3
+  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  cd ~/agent-runs/nvidia/<run_id>/U5-rerun
+  python3 -m venv .venv && . .venv/bin/activate
+  pip install usd-core
+  python $R/make_u5_assets.py .
+  python task.py > rerun-output.txt 2>&1
+  python $R/check_u5.py . > check-output.txt
+  cd ../U5-rerun-holdout
+  python $R/make_u5_assets.py . --holdout
+  python task.py > rerun-output.txt 2>&1
+  python $R/check_u5.py . > check-output.txt
   pip show usd-core | grep -E '^(Name|Version):'
   ```
 - Score `pass-with-issues` when every success criterion holds but the agent printed warnings it didn't report, relied on knowledge not from the docs, or cited a page that doesn't say what it claims. Open every page the agent cites to check.
@@ -366,3 +400,64 @@ python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
 That creates `crate.usda`, a brown 1 m crate: an Xform with the cube as its child, so there's something below the instance for instancing to share.
 
 **Out of scope:** payloads and load rules, nested instancing, refining individual instances, and GPU rendering; Omniverse and Isaac Sim
+
+---
+
+## Task U5: Write a script that flags problems in .usda files
+
+**Prompt given to the agent:**
+> This folder has several USD files at the top level, and a parts folder that some of them use. Don't change any of them. Write a Python script named task.py that checks every .usda file at the top level of this folder (not the parts folder) for these problems:
+>
+> - missing_up_axis: the file doesn't specify the stage's up axis (upAxis).
+> - missing_meters_per_unit: the file doesn't specify the stage's units (metersPerUnit).
+> - broken_reference: the file refers to another file that can't be found, through a reference, a payload, or a sublayer, either directly or through a file it brings in.
+>
+> The script should write report.json in this folder, mapping each file's name to a list of the codes for the problems found in it, with an empty list for a file that has none, and print the report. It should work on any folder of .usda files, not only these.
+>
+> Then tell me how the script detects each problem.
+
+**Docs area exercised:** asset validation, the `UsdValidation` framework and its built-in validators, `usdchecker`, stage metadata, layer dependencies
+
+**Success criteria:** C1 to C6 must hold when you rerun the agent's final `task.py` in two clean folders: one with a fresh main set, and one with the holdout set, which the agent never sees. [`check_u5.py`](check_u5.py) tests all six; it scores C1 to C5 on the main set, and the same checks on the holdout set count as C6.
+
+| ID | Criterion | How it's checked |
+| --- | --- | --- |
+| C1 | `report.json` is written, as a JSON object mapping each file to a list of codes | It parses, and every value is a list of strings |
+| C2 | The files are unchanged | Every file `make_u5_assets.py` wrote, including `parts/`, matches byte for byte |
+| C3 | The report covers exactly the top-level `.usda` files | No file missing, and nothing from `parts/`. Keys are compared by file name, so full paths are fine |
+| C4 | `missing_up_axis` and `missing_meters_per_unit` are right for every file | Including `y_up_centimeters.usda`, which authors a Y up axis and centimeters and so has neither problem |
+| C5 | `broken_reference` is right for every file, and no other codes appear | Including a broken reference inside `parts/shelf.usda`, and a missing payload |
+| C6 | The same holds on the holdout set | C1 to C5 again, on different files: a missing sublayer, a missing payload, and different names |
+
+The agent must also run the script itself, report its output, and cite a page for each step. The explanation of how the script detects each problem is recorded, not scored.
+
+**What this tests:** where the docs lead an agent that has to validate files. usd-core 26.11 includes the `UsdValidation` framework, with built-in validators for exactly these problems: `usdGeomValidators:StageMetadataChecker` and `usdUtilsValidators:MissingReferenceValidator`. The older `UsdUtils.ComplianceChecker` is gone from this build. Learn OpenUSD's validation exercise uses the `usdchecker` command-line tool, which the usd-core pip package doesn't install, and openusd.org documents `UsdValidation` in C++ only. So an agent can use the built-in validators by working out their Python names, try `usdchecker` and find it missing, or write its own checks. Any route passes if the report is right; which one it takes is the main observation.
+
+**Expected behavior to understand before scoring:**
+- **USD prints warnings when it opens these files.** Opening a file with a broken reference, payload, or sublayer prints warnings such as "Could not open asset". With the built-in validators, `MissingReferenceValidator` also prints "Ill-formed SdfPath" for each missing file. That one looks like a quirk of the validator itself; it appears even when the report is right, and it's logged as a possible `product-defect` to verify, not a docs finding. These warnings are expected. An agent that reports them hasn't done anything wrong; one that leaves them out of its summary is scored as with any unreported warning.
+- **Authored, not the right value.** `y_up_centimeters.usda` authors both settings, just not Z-up meters. A script that tests the values instead of whether they're authored flags it and fails C4.
+- **Following every dependency.** A broken reference can hide inside a file that's brought in (`nested_broken_reference.usda`), or come through a payload or a sublayer. A script that checks only direct references in the top-level file misses these and fails C5 and C6. `UsdUtils.ComputeAllDependencies` and the built-in validator both follow them. A script that opens stages without loading payloads, then checks composition errors, misses the missing payloads.
+
+**Issues `check_u5.py` flags in `task.py`:** it prints an `ISSUE` line for the reviewer to confirm by reading the code. Issues don't fail a check on their own.
+- **Hardcoded absolute path or folder.** The script must find its files at run time. A hardcoded folder also fails C1 to C6 in the reruns, because the script reads and writes the agent's folder instead.
+- **Main-set file names written into the script.** It may only handle the files it was shown. The holdout rerun, C6, settles it.
+
+[`test_check_u5.py`](test_check_u5.py) runs the checker against the reference and eight other cases: correct checks written by hand (passes), metadata checked by value, only direct references checked, a file list written into the script, the `parts/` folder included, a report keyed by full paths (passes), a hardcoded folder, and an edited file. Each case is checked on both sets. Run it after any change to `check_u5.py`.
+
+**Recorded, not scored:**
+- **Which route it took,** and which pages led there: built-in validators, `usdchecker`, or its own checks. `check_u5.py` prints it as a NOTE. Did it look for `usdchecker` or `ComplianceChecker` and find them missing?
+- **Whether its explanation matches its code.** For example, an agent that says it uses OpenUSD's validators but checks by hand.
+- **Python names.** If it used `UsdValidation`, whether it worked out the Python names from the C++ pages (see F2) and said so.
+- **Warnings.** Which USD warnings it reported, including "Ill-formed SdfPath".
+- **Navigation.** Where it started, and whether it looked for an `llms.txt`.
+- **Summary versus output.** Anything the script printed that the agent's summary left out or described differently.
+
+**Starting state:** empty folder plus the main set. Before the session, create it in the run folder with [`make_u5_assets.py`](make_u5_assets.py), then start the agent. Don't show the agent the script, and don't create the holdout set in the agent's folder; it's only for the reruns.
+
+```bash
+python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u5_assets.py .
+```
+
+That creates seven top-level files and a `parts/` folder with two more.
+
+**Out of scope:** fixing the problems, validators beyond these three problems, usdz packages, and writing custom `UsdValidation` validators; Omniverse and Isaac Sim

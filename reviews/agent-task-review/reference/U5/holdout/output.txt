@@ -1,0 +1,20 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- Could not load sublayer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_attic_layer.usda@ of layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/attic.usda@; skipping. (instantiating stage on stage @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/attic.usda@ <0x413060b0>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_attic_layer.usda@ with computed asset path @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_attic_layer.usda@ found in layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/attic.usda@.
+Warning: in SdfPath at line 129 of /opt/USD/pxr/usd/sdf/path.cpp -- Ill-formed SdfPath </tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_attic_layer.usda> at character 12 ('-'): expected end of path
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Barrel>: Could not open asset @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_barrel.usda@ for payload introduced by @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/cellar.usda@</World/Barrel>. (instantiating stage on stage @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/cellar.usda@ <0x4131cbc0>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_barrel.usda@ with computed asset path @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_barrel.usda@ found in layer @/tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/cellar.usda@.
+Warning: in SdfPath at line 129 of /opt/USD/pxr/usd/sdf/path.cpp -- Ill-formed SdfPath </tmp/claude-1000/-home-southpaw199-projects-agent-ready-docs/91383e8f-dec8-488f-92c0-2877a340a3dc/scratchpad/ref-u5-final/holdout/parts/missing_barrel.usda> at character 12 ('-'): expected end of path
+{
+  "attic.usda": [
+    "broken_reference"
+  ],
+  "cellar.usda": [
+    "broken_reference",
+    "missing_up_axis"
+  ],
+  "garage.usda": [
+    "missing_meters_per_unit",
+    "missing_up_axis"
+  ],
+  "kitchen.usda": []
+}
