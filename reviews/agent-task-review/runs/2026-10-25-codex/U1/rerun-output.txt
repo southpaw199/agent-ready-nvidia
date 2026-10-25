@@ -1,0 +1,8 @@
+Up axis: Z
+Meters per unit: 1.0
+Default prim: /World
+Prims:
+  /World (Xform)
+  /World/Box (Cube)
+Cube size: 4.0 meters
+Cube world-space bounding box (meters): [(-2, -2, 0)...(2, 2, 4)]
