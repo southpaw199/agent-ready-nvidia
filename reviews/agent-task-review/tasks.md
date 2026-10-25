@@ -90,7 +90,9 @@ If a reference result differs from the success criteria below, update the criter
 | U3 | Variants `blue` and `red`. As saved: selection `blue`, mug blue (0, 0, 1). After switching in code: selection `red`, mug red (1, 0, 0); the saved file still selects `blue`. `check_u3.py`: 11 of 11 checks pass. |
 | U4 | Scenegraph instancing. `references.usda`: 2,001 prims traversed, 0 prototypes. `instanced.usda`: 1,001 prims traversed, 1 prototype. Both open in about 16 to 24 ms, and both compose to bounds (-0.5, -0.5, 0) to (78.5, 48.5, 1). `check_u4.py`: 10 of 10 checks pass. |
 
-U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U4 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
+U1 was run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.13, with identical results. U2 to U4 were run on October 25, 2026, with usd-core 26.11 under Python 3.12.3. Open times vary from run to run; compare an agent's times with each other, not with these.
+
+The reviewer confirmed the U2 to U4 references independently the same day, in `~/agent-runs/nvidia/reference/`, with Python 3.12.3 and usd-core 26.11. Every check passed, and the outputs matched the ones recorded here: identical for U2 and U3, and the same counts for U4, which opened in 13.8 and 15.1 ms. Each task's output, saved files, and check output are in its folder under [`reference/`](reference/).
 
 ## Scoring
 
