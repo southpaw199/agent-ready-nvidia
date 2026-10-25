@@ -1,0 +1,25 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    subLayers = [
+        @./overrides.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "Table" (
+        prepend references = @./table.usda@
+    )
+    {
+    }
+
+    def "Chair" (
+        prepend references = @./chair.usda@
+    )
+    {
+    }
+}
+

@@ -1,0 +1,5 @@
+Table display color: [Gf.Vec3f(0.0, 0.0, 1.0)]
+Chair display color: [Gf.Vec3f(0.0, 1.0, 0.0)]
+Opinions about the table's display color, strongest first:
+  overrides.usda: [Gf.Vec3f(0.0, 0.0, 1.0)]
+  table.usda: [Gf.Vec3f(1.0, 0.0, 0.0)]
