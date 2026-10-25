@@ -10,7 +10,7 @@
 | Operating system | Ubuntu 24.04 under WSL 2 on Windows 11 |
 | Python | 3.12.3 |
 | usd-core | 26.11 (agent's install and the rerun) |
-| Working folder | A new, empty folder, `~/agent-runs/2026-10-25-claude-code/U1/`, outside this repository |
+| Working folder | A new, empty folder, `~/agent-runs/nvidia/2026-10-25-claude-code/U1/`, outside this repository; the rerun was in `U1-rerun/` beside it |
 | User instructions | None (`~/.claude/CLAUDE.md` absent) |
 | Auto memory | Off (`autoMemoryEnabled: false`) |
 | claude.ai connectors | Off (`disableClaudeAiConnectors: true`) |

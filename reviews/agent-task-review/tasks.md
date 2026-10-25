@@ -2,7 +2,7 @@
 
 - **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2
 - **Docs given to the agent, Tier 1:** openusd.org and docs.nvidia.com/learn-openusd, with no entry page named
-- **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository, and a fresh agent session with no project instructions or memory
+- **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository (`~/agent-runs/nvidia/<run_id>/<task>/`, for example `~/agent-runs/nvidia/2026-10-25-codex/U1/`), and a fresh agent session with no project instructions or memory
 
 ## Tier 1 standard instructions
 
@@ -30,7 +30,7 @@ Check these again on the day of each run, and note any change in the run's READM
 The [`reference/`](reference/) folder has a working solution for each task. Run it in its own folder and virtual environment, outside any agent's folder. The script writes `scene.usda` next to itself, so copy it rather than running it in place:
 
 ```bash
-mkdir -p ~/agent-runs/reference/U1 && cd ~/agent-runs/reference/U1
+mkdir -p ~/agent-runs/nvidia/reference/U1 && cd ~/agent-runs/nvidia/reference/U1
 python3 --version                # expect 3.12.3
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
@@ -53,7 +53,7 @@ Run on October 23, 2026, with usd-core 26.11, under Python 3.12.3 and Python 3.1
 ## Scoring
 
 - **Outcome** and **root cause** use the categories in the [rubric](../../../../methods/agent-task-review/rubric.md), as of method version 0.2.
-- A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into the new folder, then:
+- A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into a new folder beside the agent's, for example `~/agent-runs/nvidia/2026-10-25-codex/U1-rerun/`, then:
   ```bash
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
