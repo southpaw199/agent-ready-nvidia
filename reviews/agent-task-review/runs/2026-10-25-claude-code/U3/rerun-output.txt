@@ -1,0 +1,9 @@
+scene.usda layer still in memory: False
+[reopened from disk]
+  variants:  ['blue', 'red']
+  selection: blue
+  displayColor: [(0, 0, 1)]
+[after switching to red in code]
+  variants:  ['blue', 'red']
+  selection: red
+  displayColor: [(1, 0, 0)]

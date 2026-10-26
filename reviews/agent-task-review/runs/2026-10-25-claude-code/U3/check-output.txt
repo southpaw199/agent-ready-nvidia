@@ -1,0 +1,17 @@
+PASS  C1  scene.usda: first line '#usda 1.0' (text .usda expected)
+PASS  C2  mug.usda unchanged from make_u3_assets.py
+PASS  C3  scene.usda opens with Usd.Stage.Open
+PASS  C3  default prim: /World (Xform)
+PASS  C4  /World/Mug: reference arcs to ['/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U3-rerun/mug.usda']; composed type Cylinder (expected mug.usda in this folder)
+PASS  C5  variant set 'color' authored in scene.usda: True; variants: ['blue', 'red'] (expected ['blue', 'red'])
+PASS  C5  saved selection: 'blue' (expected 'blue')
+PASS  C6  composed color as saved: (0.0, 0.0, 1.0) (expected (0, 0, 1))
+PASS  C6  no display color authored on /World/Mug outside the variants: True
+PASS  C6  selecting 'red': color (1.0, 0.0, 0.0) (expected (1, 0, 0)); strongest opinion at /World/Mug{color=red}.primvars:displayColor, from a variant: True
+PASS  C6  selecting 'blue': color (0.0, 0.0, 1.0) (expected (0, 0, 1)); strongest opinion at /World/Mug{color=blue}.primvars:displayColor, from a variant: True
+NOTE  /World/Mug references as authored: [('./mug.usda', '')]
+NOTE  scene.usda upAxis authored: False; metersPerUnit authored: False
+NOTE  other prims: none
+NOTE  task.py switches in the session layer: True
+
+11 of 11 checks passed; 0 issue(s) to review

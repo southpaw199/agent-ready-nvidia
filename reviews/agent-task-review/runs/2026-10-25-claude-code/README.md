@@ -10,7 +10,7 @@
 | Operating system | Ubuntu 24.04 under WSL 2 on Windows 11 |
 | Python | 3.12.3 |
 | usd-core | 26.11 (agent's install and the rerun) |
-| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-25-claude-code/` (`U1/`, `U2/`), outside this repository; each rerun was in a `-rerun` folder beside it, such as `U1-rerun/` |
+| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-25-claude-code/` (`U1/` to `U3/`), outside this repository; each rerun was in a `-rerun` folder beside it, such as `U1-rerun/` |
 | User instructions | None (`~/.claude/CLAUDE.md` absent) |
 | Auto memory | Off (`autoMemoryEnabled: false`) |
 | claude.ai connectors | Off (`disableClaudeAiConnectors: true`) |
@@ -20,7 +20,7 @@
 
 ## Entry points on the day of the run
 
-Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returned the 27-line course index. Rechecked before U2 the same day, with the same results. The agent used neither in either task.
+Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returned the 27-line course index. Rechecked before U2 and after U3 the same day, with the same results. The agent used neither in any task.
 
 ## Notes
 
@@ -35,5 +35,6 @@ Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https:/
 | --- | --- | --- | --- |
 | U1 | pass-with-issues | 0 | [U1](U1/) |
 | U2 | pass-with-issues | 0 | [U2](U2/) |
+| U3 | pass-with-issues | 0 | [U3](U3/) |
 
 Each task folder holds the agent's final `task.py` and the exported conversation, `transcript.md`. Unlike the LanceDB runs, every task folder also holds `rerun-output.txt`, the output of the agent's `task.py` rerun in a clean folder, and `check-output.txt`, the result of [`check_u1.py`](../../check_u1.py) on the `scene.usda` that rerun saved.
