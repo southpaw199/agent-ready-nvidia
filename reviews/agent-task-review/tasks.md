@@ -2,7 +2,7 @@
 
 - **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2
 - **Docs given to the agent, Tier 1:** openusd.org and docs.nvidia.com/learn-openusd, with no entry page named
-- **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository (`~/agent-runs/nvidia/<run_id>/<task>/`, for example `~/agent-runs/nvidia/2026-10-25-codex/U1/`), and a fresh agent session with no project instructions or memory
+- **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository (`~/agent-runs/nvidia/<run_id>/<task>/`, for example `~/agent-runs/nvidia/2026-10-25-codex/U1/`), and a fresh agent session with no project instructions or memory, started from a terminal with no virtual environment active (run `deactivate` first), so the agent doesn't inherit a rerun's Python
 
 ## Tier 1 standard instructions
 

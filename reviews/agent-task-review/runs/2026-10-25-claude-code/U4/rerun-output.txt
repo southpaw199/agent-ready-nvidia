@@ -1,0 +1,9 @@
+USD version: 0.26.11
+references.usda
+  open time:          14.24 ms
+  prims traversed:    2001
+  prototypes:         0
+instanced.usda
+  open time:          15.37 ms
+  prims traversed:    1001
+  prototypes:         1 ['/__Prototype_1']
