@@ -1,0 +1,17 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- Could not load sublayer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/parts/missing_attic_layer.usda@ of layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/attic.usda@; skipping. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/attic.usda@ <0x5858ff0>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_attic_layer.usda@ with computed asset path @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/parts/missing_attic_layer.usda@ found in layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/attic.usda@.
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_barrel.usda@ with computed asset path @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/parts/missing_barrel.usda@ found in layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun-holdout/cellar.usda@.
+{
+  "attic.usda": [
+    "broken_reference"
+  ],
+  "cellar.usda": [
+    "missing_up_axis",
+    "broken_reference"
+  ],
+  "garage.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit"
+  ],
+  "kitchen.usda": []
+}

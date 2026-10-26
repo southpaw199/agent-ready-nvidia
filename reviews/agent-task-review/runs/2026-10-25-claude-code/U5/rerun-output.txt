@@ -1,0 +1,26 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Chair>: Could not open asset @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/missing_chair.usda@ for reference introduced by @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/broken_reference.usda@</World/Chair>. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/broken_reference.usda@ <0x27ef3cd0>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_chair.usda@ with computed asset path @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/missing_chair.usda@ found in layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/broken_reference.usda@.
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Shelf>: Could not open asset @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/missing_books.usda@ for reference introduced by @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/shelf.usda@</Shelf>. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/nested_broken_reference.usda@ <0x27ef6d20>)
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./missing_books.usda@ with computed asset path @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/missing_books.usda@ found in layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/shelf.usda@.
+Warning: in _EnqueueDependency at line 145 of /opt/USD/pxr/usd/usdUtils/assetLocalization.cpp -- Failed to resolve reference @./parts/missing_rug.usda@ with computed asset path @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/parts/missing_rug.usda@ found in layer @/home/southpaw199/agent-runs/nvidia/2026-10-25-claude-code/U5-rerun/two_problems.usda@.
+{
+  "broken_reference.usda": [
+    "broken_reference"
+  ],
+  "good.usda": [],
+  "nested_broken_reference.usda": [
+    "broken_reference"
+  ],
+  "no_units.usda": [
+    "missing_meters_per_unit"
+  ],
+  "no_up_axis.usda": [
+    "missing_up_axis"
+  ],
+  "two_problems.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit",
+    "broken_reference"
+  ],
+  "y_up_centimeters.usda": []
+}
