@@ -1,6 +1,6 @@
 # Case study: NVIDIA OpenUSD, Omniverse, and Isaac Sim
 
-**Status: in progress.** Tier 1 is done, and its full report is next; then Tiers 2 and 3.
+**Status: in progress.** Tier 1 is done, and its report is published; Tiers 2 and 3 are next.
 
 This case study applies the [agent task review](../../methods/agent-task-review/method.md) to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It runs in three tiers:
 
@@ -49,4 +49,4 @@ Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol
 - **Which version of the docs.** openusd.org's API pages under `/dev/` and `/release/` show no version number, and searches also turn up older sets such as `/22.08/` and `/25.11/`. Claude Code cited `/dev/` API pages in U1 and U2 and `/release/` pages after that; Codex cited `/release/` throughout. None of them cited an older set.
 - **An agent's "it's not in the docs" needs checking too.** Twice, Claude Code said something wasn't documented when a page it had read covered it: the usd-core install steps (U1) and how relative paths resolve (U2).
 
-These results come from one run per agent per task and are a signal, not a verdict. The [run log](reviews/agent-task-review/run-log.csv) has a row per run, the [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript. The full Tier 1 report is next.
+These results come from one run per agent per task and are a signal, not a verdict. **[Read the Tier 1 report](reviews/agent-task-review/report.md)** for the findings, including four minor ones, suggested fixes, how the two agents compared, and the limitations. The [run log](reviews/agent-task-review/run-log.csv) has a row per run, the [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
