@@ -27,7 +27,11 @@ METADATA = {"missing_up_axis", "missing_meters_per_unit"}
 BUILT_IN = {"UsdValidation", "ValidationRegistry", "ValidationContext", "GetOrLoadValidatorByName",
             "GetValidatorsByKeywords", "GetAllValidatorMetadata"}
 BY_HAND = {"HasAuthoredMetadata", "GetCompositionErrors", "ComputeAllDependencies", "GetCompositionArcs",
-           "GetExternalReferences", "GetCompositionAssetDependencies", "PrimCompositionQuery"}
+           "GetExternalReferences", "GetCompositionAssetDependencies", "PrimCompositionQuery",
+           "StageHasAuthoredMetersPerUnit",
+           # Checks written at the layer level, without composing a stage.
+           "HasInfo", "pseudoRoot", "GetPseudoRoot", "subLayerPaths", "GetSubLayerPaths",
+           "FindOrOpenRelativeToLayer", "ComputeAssetPathRelativeToLayer", "GetResolver", "Resolve"}
 
 
 def which_set(d):

@@ -74,6 +74,51 @@ DIRECT_REFERENCES = '''    layer = Usd.Stage.Open(str(path)).GetRootLayer()
     for spec in layer.rootPrims:
         visit(spec)
     return ok'''
+# A correct script that works on layers without composing a stage, as Codex's U5 run did.
+BY_LAYER = '''import json
+from pathlib import Path
+
+from pxr import Ar, Sdf
+
+HERE = Path(__file__).resolve().parent
+
+
+def broken(layer, seen):
+    if layer.identifier in seen:
+        return False
+    seen.add(layer.identifier)
+    paths = list(layer.subLayerPaths)
+
+    def visit(path):
+        spec = layer.GetObjectAtPath(path)
+        for key in ("references", "payload"):
+            if spec.HasInfo(key):
+                paths.extend(a.assetPath for a in spec.GetInfo(key).GetAppliedItems() if a.assetPath)
+
+    layer.Traverse(Sdf.Path.absoluteRootPath, visit)
+    for path in paths:
+        if not Ar.GetResolver().Resolve(Sdf.ComputeAssetPathRelativeToLayer(layer, path)):
+            return True
+        child = Sdf.Layer.FindOrOpenRelativeToLayer(layer, path)
+        if child is not None and broken(child, seen):
+            return True
+    return False
+
+
+report = {}
+for path in sorted(HERE.glob("*.usda")):
+    layer = Sdf.Layer.FindOrOpen(str(path))
+    codes = []
+    if not layer.pseudoRoot.HasInfo("upAxis"):
+        codes.append("missing_up_axis")
+    if not layer.pseudoRoot.HasInfo("metersPerUnit"):
+        codes.append("missing_meters_per_unit")
+    if broken(layer, set()):
+        codes.append("broken_reference")
+    report[path.name] = codes
+(HERE / "report.json").write_text(json.dumps(report, indent=2))
+print(json.dumps(report, indent=2))
+'''
 MAIN_FILES = ('["good.usda", "y_up_centimeters.usda", "no_up_axis.usda", "no_units.usda", '
               '"broken_reference.usda", "nested_broken_reference.usda", "two_problems.usda"]')
 
@@ -90,6 +135,7 @@ def edit(old, new, base=None):
 CASES = {
     "reference (built-in validators)": (lambda s, a: s, set(), []),
     "checks written by hand": (lambda s, a: BY_HAND, set(), []),
+    "checks written by hand on layers, without a stage": (lambda s, a: BY_LAYER, set(), []),
     "metadata checked by value, not by whether it's authored": (
         edit(METADATA_BY_HAND, METADATA_BY_VALUE, base=BY_HAND), {"C4"}, []),
     "only direct references checked": (
@@ -105,6 +151,12 @@ CASES = {
     "asset file edited": (
         edit('(HERE / "report.json")', '(HERE / "no_units.usda").write_text("#usda 1.0\\n")\n(HERE / "report.json")'),
         {"C2"}, ["names main-set files"]),
+}
+# The route each case's NOTE line should report.
+ROUTES = {
+    "reference (built-in validators)": "built-in UsdValidation validators",
+    "checks written by hand": "checks written by hand",
+    "checks written by hand on layers, without a stage": "checks written by hand",
 }
 
 
@@ -140,12 +192,15 @@ def main():
             failed, issues, out = run_case(name, change, Path(tmp) / str(i))
             issues_ok = len(issues) == len(want_issues) and all(
                 any(w in i for i in issues) for w in want_issues)
-            ok = failed == want_failed and issues_ok
+            notes = re.findall(r"^NOTE  how task.py finds the problems: (.*)$", out, re.M)
+            route_ok = name not in ROUTES or (notes and all(n == ROUTES[name] for n in notes))
+            ok = failed == want_failed and issues_ok and route_ok
             problems += not ok
             print(f"{'ok  ' if ok else 'BAD '} {name}: fails {sorted(failed) or 'nothing'}, "
-                  f"{len(issues)} kind(s) of issue")
+                  f"{len(issues)} kind(s) of issue" + (f", route: {notes[0]}" if name in ROUTES and notes else ""))
             if not ok:
-                print(f"     expected fails {sorted(want_failed) or 'nothing'}, issues {want_issues}\n{out}")
+                print(f"     expected fails {sorted(want_failed) or 'nothing'}, issues {want_issues}, "
+                      f"route {ROUTES.get(name, 'any')}\n{out}")
     print(f"\n{len(CASES) - problems} of {len(CASES)} cases behaved as expected")
     return 1 if problems else 0
 
