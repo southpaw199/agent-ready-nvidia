@@ -1,0 +1,14 @@
+{
+  "attic.usda": [
+    "broken_reference"
+  ],
+  "cellar.usda": [
+    "missing_up_axis",
+    "broken_reference"
+  ],
+  "garage.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit"
+  ],
+  "kitchen.usda": []
+}
