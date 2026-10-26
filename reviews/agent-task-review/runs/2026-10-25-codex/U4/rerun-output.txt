@@ -1,0 +1,8 @@
+references.usda:
+  Open time: 0.024241 seconds
+  Prims visited by stage.Traverse(): 2001
+  Prototypes: 0
+instanced.usda:
+  Open time: 0.021264 seconds
+  Prims visited by stage.Traverse(): 1001
+  Prototypes: 1

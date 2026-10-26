@@ -1,0 +1,15 @@
+PASS  C1  references.usda: first line '#usda 1.0' (text .usda expected)
+PASS  C1  instanced.usda: first line '#usda 1.0' (text .usda expected)
+PASS  C2  crate.usda unchanged from make_u4_assets.py
+PASS  C3  references.usda: default prim /World (Xform)
+PASS  C3  instanced.usda: default prim /World (Xform)
+PASS  C4  references.usda: 1000 prims reference crate.usda in this folder (expected 1000); instanceable: 0; PointInstancers: 0
+PASS  C4  references.usda: crate positions match x = 2 * (i mod 40), y = 2 * (i div 40), z = 0
+PASS  C5  instanced.usda shares one copy of the crate: scenegraph instancing. Scenegraph: 1000 referencing prims, 1000 instances, 1 prototype(s). Point: 0 PointInstancer(s)
+PASS  C6  references.usda: world bounds [(-0.5, -0.5, 0)...(78.5, 48.5, 1)] (expected (-0.5, -0.5, 0.0) to (78.5, 48.5, 1.0))
+PASS  C6  instanced.usda: world bounds [(-0.5, -0.5, 0)...(78.5, 48.5, 1)] (expected (-0.5, -0.5, 0.0) to (78.5, 48.5, 1.0))
+NOTE  references.usda: opened in 20.6 ms by the checker; 2001 prims traversed (2001 counting instance proxies); 0 prototype(s)
+NOTE  instanced.usda: opened in 15.7 ms by the checker; 1001 prims traversed (2001 counting instance proxies); 1 prototype(s)
+NOTE  instancing used in instanced.usda: scenegraph instancing
+
+10 of 10 checks passed; 0 issue(s) to review
