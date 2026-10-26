@@ -1,0 +1,9 @@
+[reopened from disk]
+  variants:  ['blue', 'red']
+  selection: blue
+  color:     [Gf.Vec3f(0.0, 0.0, 1.0)]
+[after switching to red in code]
+  variants:  ['blue', 'red']
+  selection: red
+  color:     [Gf.Vec3f(1.0, 0.0, 0.0)]
+[scene.usda on disk] color selection: blue
