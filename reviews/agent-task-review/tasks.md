@@ -442,7 +442,7 @@ The agent must also run the script itself, report its output, and cite a page fo
 - **Hardcoded absolute path or folder.** The script must find its files at run time. A hardcoded folder also fails C1 to C6 in the reruns, because the script reads and writes the agent's folder instead.
 - **Main-set file names written into the script.** It may only handle the files it was shown. The holdout rerun, C6, settles it.
 
-[`test_check_u5.py`](test_check_u5.py) runs the checker against the reference and eight other cases: correct checks written by hand (passes), metadata checked by value, only direct references checked, a file list written into the script, the `parts/` folder included, a report keyed by full paths (passes), a hardcoded folder, and an edited file. Each case is checked on both sets. Run it after any change to `check_u5.py`.
+[`test_check_u5.py`](test_check_u5.py) runs the checker against the reference and nine other cases: correct checks written by hand, on a stage and on layers alone (both pass, and both must be noted as written by hand), metadata checked by value, only direct references checked, a file list written into the script, the `parts/` folder included, a report keyed by full paths (passes), a hardcoded folder, and an edited file. Each case is checked on both sets. Run it after any change to `check_u5.py`.
 
 **Recorded, not scored:**
 - **Which route it took,** and which pages led there: built-in validators, `usdchecker`, or its own checks. `check_u5.py` prints it as a NOTE. Did it look for `usdchecker` or `ComplianceChecker` and find them missing?
