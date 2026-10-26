@@ -1,0 +1,5 @@
+/World/Table composed displayColor: [(0, 0, 1)]
+/World/Chair composed displayColor: [(0, 1, 0)]
+Table displayColor opinions (strongest first):
+  overrides.usda: /World/Table.primvars:displayColor
+  table.usda: /Table.primvars:displayColor
