@@ -1,7 +1,8 @@
 # NVIDIA: agent task review tasks
 
-- **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2
+- **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2 for the Tier 1 docs-only runs, and 0.3 for the docs+mcp reruns
 - **Docs given to the agent, Tier 1:** openusd.org and docs.nvidia.com/learn-openusd, with no entry page named
+- **Docs+MCP condition:** the same five tasks, prompts, and checkers, with NVIDIA's USD Code MCP server (`NVIDIA-Omniverse/kit-usd-agents` at commit `4ce780d`, Docker image `360aaf4962b4`) also available, registered only in each run's folder
 - **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository (`~/agent-runs/nvidia/<run_id>/<task>/`, for example `~/agent-runs/nvidia/2026-10-25-codex/U1/`), and a fresh agent session with no project instructions or memory, started from a terminal with no virtual environment active (run `deactivate` first), so the agent doesn't inherit a rerun's Python
 
 ## Tier 1 standard instructions
@@ -24,6 +25,18 @@ Unlike LanceDB's, these instructions don't name a page to start from. How each a
 | https://docs.nvidia.com/learn-openusd | 404. The course is at https://docs.nvidia.com/learn-openusd/latest/ |
 
 Check these again on the day of each run, and note any change in the run's README.
+
+## Docs+MCP standard instructions
+
+For the docs+mcp reruns, give the agent these instructions first, then the task prompt, unchanged. They're the Tier 1 standard instructions with one paragraph added, the second one. First used on 2026-10-26, in Claude Code U1.
+
+> I'm learning OpenUSD, an open-source framework for describing 3D scenes. Use only these two documentation sites to do this task: the OpenUSD documentation at openusd.org, and NVIDIA's Learn OpenUSD course at docs.nvidia.com/learn-openusd. Don't rely on what you remember about OpenUSD, and don't use other websites. If you use something you already knew rather than something you read in these docs, say so. Each time you rely on a docs page, tell me its URL.
+>
+> You also have the usd-code-mcp server, which answers questions about the OpenUSD API and finds code examples. You can use it alongside the two documentation sites. When a step relies on an MCP result rather than a page, name the tool and the query you sent.
+>
+> Work only in the current folder. Create a Python virtual environment here and install the usd-core package from PyPI into it. When you're done, run your final script and show me its complete output, including any warnings. Then list the docs page, with its URL, behind each step.
+
+The instructions don't tell the agent to use the server. Whether it uses an available server on its own is part of the result, recorded in the run log's `mcp_calls` column. An MCP result counts as a source and is checked the same way as a cited page: against usd-core 26.11 for API questions, and against the live docs for concepts.
 
 ## Before the first run: confirm the expected answers
 
@@ -114,7 +127,7 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
 
 ## Scoring
 
-- **Outcome** and **root cause** use the categories in the [rubric](../../../../methods/agent-task-review/rubric.md), as of method version 0.2.
+- **Outcome** and **root cause** use the categories in the [rubric](../../../../methods/agent-task-review/rubric.md), as of method version 0.2 for docs-only runs and 0.3 for docs+mcp runs. Under 0.3, a cited MCP result that is wrong or doesn't say what the agent claims scores `pass-with-issues`, the same as a cited page.
 - A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into a new folder beside the agent's, for example `~/agent-runs/nvidia/2026-10-25-codex/U1-rerun/`, then run the commands for that task. For U1:
   ```bash
   python3 --version                # expect 3.12.3

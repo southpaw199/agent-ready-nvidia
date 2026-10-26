@@ -1,0 +1,46 @@
+# Run: 2026-10-26, Claude Code, docs+mcp
+
+The Tier 1 tasks run again with NVIDIA's USD Code MCP server available, under method version 0.3. The agent gets the [docs+MCP standard instructions](../../tasks.md#docsmcp-standard-instructions), then each task prompt, unchanged.
+
+## Environment
+
+| Item | Value |
+| --- | --- |
+| Agent | Claude Code, VS Code extension |
+| Agent version | 2.1.310, the same as the Tier 1 run |
+| Model | claude-opus-5-5, the same as the Tier 1 run |
+| Operating system | Ubuntu 24.04 under WSL 2 on Windows 11 |
+| Python | 3.12.3 |
+| usd-core | 26.11 (agent's install and the rerun) |
+| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-26-claude-code-mcp/` (`U1/` to `U5/`), outside this repository; each rerun is in a `-rerun` folder beside it, such as `U1-rerun/` |
+| MCP server | USD Code MCP, `NVIDIA-Omniverse/kit-usd-agents` at commit `4ce780d659078e7e7c12448778d3b05c842e6ffb`, Docker image `360aaf4962b4` (NeMo Agent Toolkit MCP 1.30.0), at `http://localhost:9903/mcp`. The same container serves every run. Its 7 tools are listed in [`usd-code-mcp-tools.json`](../../mcp/usd-code-mcp-tools.json). |
+| MCP registration | Local scope, in each task folder only (`claude mcp add --transport http usd-code-mcp http://localhost:9903/mcp`). Not registered at user scope, in this repository, or in any Tier 1 folder; checked with `claude mcp list` before the runs. The Isaac Sim MCP server was set up but not registered and is not used. |
+| Retrieval settings | The server's defaults, unchanged during the runs |
+| User instructions | None (`~/.claude/CLAUDE.md` absent) |
+| Auto memory | Off (`autoMemoryEnabled: false`) |
+| claude.ai connectors | Off (`disableClaudeAiConnectors: true`) |
+| Web search | On, as in the Tier 1 run |
+| Permissions | Each web fetch domain, command, and MCP tool was approved at a prompt. In U1, approvals for openusd.org, docs.nvidia.com, and `get_usd_method_detail` were saved to the folder's `.claude/settings.local.json`. |
+
+## Entry points on the day of the run
+
+Checked 2026-10-26, after U1: https://openusd.org/llms.txt and https://openusd.org/release/llms.txt still return 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returns the 27-line course index. https://docs.nvidia.com/learn-openusd now redirects (301) to `https://docs.nvidia.com/learn-openusd/`, which still returns 404. The agent used none of them in U1.
+
+## Notes
+
+- U1 was restarted. The first session was stopped by the reviewer at its first permission prompts, before any page was read or package installed. Its folder was emptied, its transcript moved out of the run tree, and a new session (not a resumed one) was started with the same message. That transcript is [`U1/false-start-transcript.md`](U1/false-start-transcript.md). It isn't counted as a hint, because nothing was said to the agent about the task.
+- In U1, Claude Code saved the two large MCP search results to files under `~/.claude/projects/.../tool-results/`, outside the run folder, and the agent changed into that folder to read them. This is logged as an issue in the run log and as finding F12.
+- The MCP results the agent relied on were checked the same way as its cited pages: against usd-core 26.11 and the live docs. The full results come from the session's log, since `/export` collapses tool calls.
+- The reviewer reran the agent's `task.py` on 2026-10-26 in a clean folder with a fresh virtual environment, Python 3.12.3, and usd-core 26.11, using the commands in [tasks.md](../../tasks.md#scoring). The rerun folders have no MCP server registered.
+
+## Tasks
+
+| Task | Outcome | Hints | MCP calls | Folder |
+| --- | --- | --- | --- | --- |
+| U1 | pass-with-issues | 0 | 3 | [U1](U1/) |
+| U2 | not yet run | | | |
+| U3 | not yet run | | | |
+| U4 | not yet run | | | |
+| U5 | not yet run | | | |
+
+Each task folder holds the agent's final `task.py`, the exported conversation `transcript.md`, `rerun-output.txt` from the reviewer's rerun, and `check-output.txt` from the task's checker on that rerun.
