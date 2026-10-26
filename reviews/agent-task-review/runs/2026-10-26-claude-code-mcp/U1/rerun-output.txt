@@ -1,0 +1,12 @@
+Opened:          /home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U1-rerun/scene.usda
+Up axis:         Z
+Meters per unit: 1.0
+Default prim:    /World
+Prims:
+  /World  (Xform)
+  /World/Box  (Cube)
+Cube size:       4.0
+Cube color:      [Gf.Vec3f(1.0, 0.0, 0.0)]
+Cube world-space bounding box:
+  min: (-2, -2, 0)
+  max: (2, 2, 4)

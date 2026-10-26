@@ -1,0 +1,251 @@
+{
+  "server": "USD Code MCP (NVIDIA-Omniverse/kit-usd-agents, source/mcp/usd_code_mcp/)",
+  "serverInfo": {
+    "name": "NeMo Agent Toolkit MCP",
+    "version": "1.30.0"
+  },
+  "protocolVersion": "2025-06-18",
+  "repoCommit": "4ce780d659078e7e7c12448778d3b05c842e6ffb",
+  "imageId": "360aaf4962b4",
+  "endpoint": "http://localhost:9903/mcp",
+  "date": "2026-10-26",
+  "toolCount": 7,
+  "tools": [
+    {
+      "name": "search_usd_code_examples",
+      "description": "Find copy-pastable USD (pxr.*) Python snippets — stage creation, prim ops, composition, UsdGeom/UsdSkel/UsdLux patterns.\n\nWHEN TO USE THIS TOOL:\n- \"How to create a USD stage / mesh / point instancer?\"\n- \"Show me code for ComputePointsAtTime / SetTransformOp / composition arcs.\"\n- You want runnable Python using pxr modules, not prose docs.\n\nARGUMENTS:\n- request (str): natural-language query describing the desired USD code example.\n\nRETURNS:\nFormatted code examples, each with the question it answers and a Python snippet using pxr.*.\n\nUSAGE EXAMPLES:\nsearch_usd_code_examples \"How to create a mesh?\"\nsearch_usd_code_examples \"UsdSkel animation\"\nsearch_usd_code_examples \"layer composition\"\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- Conceptual USD questions → use search_usd_knowledge.\n- Class signature / docstring for pxr types → use get_usd_class_detail.\n- Method-level lookup → use get_usd_method_detail.\n- Kit-side USD integration (stage attach, hydra viewport, etc.) → use the Kit MCP's search_kit_code_examples.\n\nAbbreviation tip: the retriever auto-expands common Omniverse abbreviations (SSS, PBR, DLSS, LIVRPS, Gf/Sdf/UsdGeom, etc.). Write the natural term — you don't have to pre-expand.\n",
+      "inputSchema": {
+        "properties": {
+          "request": {
+            "title": "Request",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "title": "search_usd_code_examplesArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "search_usd_code_examplesOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "search_usd_knowledge",
+      "description": "PRIMARY tool for any question about Universal Scene Description (USD). Start here for concepts, architecture, workflows, schema behavior, composition, lighting, animation, and \"how do I…?\" questions about USD.\n\nWHEN TO USE THIS TOOL:\n- \"How does layer composition / stage / prim inheritance work?\"\n- \"What is UsdLux / UsdGeom / UsdSkel for?\"\n- Behavioral or workflow questions about USD across renderers.\n- Any conceptual USD question before reaching for a code example or class signature.\n\nARGUMENTS:\n- request (str): natural-language question about USD concepts, workflows, or documentation.\n\nRETURNS:\nFormatted documentation excerpts with titles, content, and source URLs.\n\nUSAGE EXAMPLES:\nsearch_usd_knowledge \"What is layer composition?\"\nsearch_usd_knowledge \"USD lighting workflow\"\nsearch_usd_knowledge \"prim inheritance\"\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- Copy-pastable USD Python code → use search_usd_code_examples.\n- Specific class signature / methods (e.g. UsdStage) → use get_usd_class_detail.\n- Specific method docs (e.g. GetPrim) → use get_usd_method_detail.\n- Enumerate pxr.* modules / classes → use list_usd_modules or list_usd_classes.\n- Kit-specific (not pxr) USD integration → use the Kit MCP's search_kit_knowledge.\n- omni.ui scene (3D UI) integration → use the OmniUI MCP's search_ui_code_examples.\n\nAbbreviation tip: the retriever auto-expands common Omniverse abbreviations (SSS, PBR, DLSS, LIVRPS, Gf/Sdf/UsdGeom, etc.). Write the natural term — you don't have to pre-expand.\n",
+      "inputSchema": {
+        "properties": {
+          "request": {
+            "title": "Request",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "title": "search_usd_knowledgeArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "search_usd_knowledgeOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_usd_modules",
+      "description": "Enumerate every pxr.* module known to the USD Atlas — useful for discovering what USD modules exist.\n\nWHEN TO USE THIS TOOL:\n- \"Which pxr modules are available?\"\n- You need to confirm a module name (Sdf, Usd, UsdGeom, UsdShade, …) before calling get_usd_module_detail.\n- Producing a sitemap of USD APIs.\n\nARGUMENTS:\n- (no arguments)\n\nRETURNS:\nJSON containing module names, full names, file paths, the classes and functions belonging to each module, and summary statistics (total modules / classes / functions).\n\nUSAGE EXAMPLES:\nlist_usd_modules\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- Full details for a named module → use get_usd_module_detail.\n- Enumerate classes, not modules → use list_usd_classes.\n- Conceptual / how-to questions → use search_usd_knowledge.\n\nAbbreviation tip: the retriever auto-expands common Omniverse abbreviations (SSS, PBR, DLSS, LIVRPS, Gf/Sdf/UsdGeom, etc.). Write the natural term — you don't have to pre-expand.\n",
+      "inputSchema": {
+        "properties": {},
+        "title": "list_usd_modulesArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "list_usd_modulesOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_usd_classes",
+      "description": "Enumerate every pxr.* class known to the USD Atlas — a flat alphabetical listing for discovery.\n\nWHEN TO USE THIS TOOL:\n- \"What classes does USD expose?\"\n- You need to confirm a class name (e.g. UsdStage, UsdPrim, UsdGeomMesh) before calling get_usd_class_detail.\n- Browsing / auditing the USD class surface.\n\nARGUMENTS:\n- (no arguments)\n\nRETURNS:\nJSON with `class_full_names` (sorted list of full class names) and `total_count`.\n\nUSAGE EXAMPLES:\nlist_usd_classes\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- Full docstring / methods of a specific class → use get_usd_class_detail.\n- Classes grouped by module → use list_usd_modules or get_usd_module_detail.\n- Conceptual questions → use search_usd_knowledge.\n\nAbbreviation tip: the retriever auto-expands common Omniverse abbreviations (SSS, PBR, DLSS, LIVRPS, Gf/Sdf/UsdGeom, etc.). Write the natural term — you don't have to pre-expand.\n",
+      "inputSchema": {
+        "properties": {},
+        "title": "list_usd_classesArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "list_usd_classesOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_usd_module_detail",
+      "description": "Inspect one or more pxr.* modules — lists every class and function the module exposes, plus module metadata.\n\nWHEN TO USE THIS TOOL:\n- \"What's in pxr.Sdf / pxr.UsdGeom / pxr.UsdShade?\"\n- Picking the right class from a module before calling get_usd_class_detail.\n- Comparing two modules' contents side-by-side.\n\nARGUMENTS:\n- module_names (str | list[str]): module names (short \"Usd\" or full \"pxr.Usd\" both work; accepts a native list, JSON-array string, or comma-separated string).\n\nRETURNS:\nJSON with per-module metadata (name, full name, file path), the classes and functions in each module, and summary statistics.\n\nUSAGE EXAMPLES:\nget_usd_module_detail \"pxr.Usd\"\nget_usd_module_detail [\"Usd\",\"UsdGeom\"]\nget_usd_module_detail \"Usd,UsdGeom\"\nget_usd_module_detail \"pxr.Usd,pxr.UsdGeom,pxr.UsdShade\"\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- You don't know which module to ask about → use list_usd_modules.\n- You want a specific class → use get_usd_class_detail.\n- You want a specific method → use get_usd_method_detail.\n- Conceptual questions → use search_usd_knowledge.\n",
+      "inputSchema": {
+        "properties": {
+          "module_names": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Module Names"
+          }
+        },
+        "required": [
+          "module_names"
+        ],
+        "title": "get_usd_module_detailArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "get_usd_module_detailOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_usd_class_detail",
+      "description": "Inspect one or more pxr.* classes — full docstring, own & inherited methods, variables, and parent-class hierarchy.\n\nWHEN TO USE THIS TOOL:\n- \"What methods does UsdStage / UsdPrim / UsdGeomMesh have?\"\n- Understanding a class's inheritance and full API surface before using it.\n- Comparing several USD classes at once.\n\nARGUMENTS:\n- class_names (str | list[str]): class names (short \"Stage\" or full \"pxr.Usd.Stage\"; accepts a native list, JSON-array string, or comma-separated string).\n\nRETURNS:\nJSON with class metadata (name, full name, module, docstring), methods (own + inherited), class variables (own + inherited), the parent hierarchy, and summary statistics.\n\nUSAGE EXAMPLES:\nget_usd_class_detail \"UsdStage\"\nget_usd_class_detail [\"UsdStage\",\"UsdPrim\"]\nget_usd_class_detail \"UsdStage,UsdPrim\"\nget_usd_class_detail \"pxr.Usd.Stage,pxr.UsdGeom.Mesh\"\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- You don't know the class name → use list_usd_classes or search_usd_knowledge.\n- You want a specific method's detail → use get_usd_method_detail.\n- You want the enclosing module → use get_usd_module_detail.\n- You want working code using the class → use search_usd_code_examples.\n",
+      "inputSchema": {
+        "properties": {
+          "class_names": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Class Names"
+          }
+        },
+        "required": [
+          "class_names"
+        ],
+        "title": "get_usd_class_detailArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "get_usd_class_detailOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_usd_method_detail",
+      "description": "Inspect one or more pxr.* methods — signature, arguments, return type, and docstring; optionally scoped to a class.\n\nWHEN TO USE THIS TOOL:\n- \"What does UsdStage.GetPrimAtPath take and return?\"\n- Disambiguating overloaded or inherited methods.\n- Batch-looking-up several methods on the same class.\n\nARGUMENTS:\n- method_names (str | list[str]): method names (fuzzy-matched; accepts a native list, JSON-array string, or comma-separated string).\n- class_name (str, optional): class to scope the search to (searches class + ancestors).\n\nRETURNS:\nJSON per method with full name, signature, docstring, arguments (with types), return type, the owning class, and whether the method is inherited. Up to 5 best matches per query.\n\nUSAGE EXAMPLES:\nget_usd_method_detail {\"method_names\": \"GetPrim\"}\nget_usd_method_detail {\"method_names\": [\"GetPrim\",\"CreatePrim\"], \"class_name\": \"UsdStage\"}\nget_usd_method_detail {\"method_names\": \"GetPrim,CreatePrim\", \"class_name\": \"UsdStage\"}\nget_usd_method_detail {\"method_names\": \"Clear,IsValid\", \"class_name\": \"Attribute\"}\n\nWHEN TO USE A DIFFERENT TOOL INSTEAD:\n- You want the whole class API → use get_usd_class_detail.\n- You don't know the class / method name → use search_usd_knowledge or list_usd_classes.\n- You want working code → use search_usd_code_examples.\n",
+      "inputSchema": {
+        "properties": {
+          "method_names": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Method Names"
+          },
+          "class_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "title": "Class Name"
+          }
+        },
+        "required": [
+          "method_names"
+        ],
+        "title": "get_usd_method_detailArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "get_usd_method_detailOutput",
+        "type": "object"
+      }
+    }
+  ]
+}
