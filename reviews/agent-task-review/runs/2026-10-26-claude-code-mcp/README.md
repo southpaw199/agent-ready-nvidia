@@ -20,16 +20,17 @@ The Tier 1 tasks run again with NVIDIA's USD Code MCP server available, under me
 | Auto memory | Off (`autoMemoryEnabled: false`) |
 | claude.ai connectors | Off (`disableClaudeAiConnectors: true`) |
 | Web search | On, as in the Tier 1 run |
-| Permissions | Each web fetch domain, command, and MCP tool was approved at a prompt. In U1, approvals for openusd.org, docs.nvidia.com, and `get_usd_method_detail` were saved to the folder's `.claude/settings.local.json`. |
+| Permissions | Each web fetch domain, command, and MCP tool was approved at a prompt. In U1, approvals for openusd.org, docs.nvidia.com, and `get_usd_method_detail` were saved to the folder's `.claude/settings.local.json`; in U2, approvals for docs.nvidia.com, `search_usd_code_examples`, and `get_usd_method_detail`. Commands that read outside the folder were approved once each, not saved. |
 
 ## Entry points on the day of the run
 
-Checked 2026-10-26, after U1: https://openusd.org/llms.txt and https://openusd.org/release/llms.txt still return 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returns the 27-line course index. https://docs.nvidia.com/learn-openusd now redirects (301) to `https://docs.nvidia.com/learn-openusd/`, which still returns 404. The agent used none of them in U1.
+Checked 2026-10-26, after U1: https://openusd.org/llms.txt and https://openusd.org/release/llms.txt still return 404, and https://docs.nvidia.com/learn-openusd/llms.txt still returns the 27-line course index. https://docs.nvidia.com/learn-openusd now redirects (301) to `https://docs.nvidia.com/learn-openusd/`, which still returns 404. The agent used none of them in U1 or U2.
 
 ## Notes
 
 - U1 was restarted. The first session was stopped by the reviewer at its first permission prompts, before any page was read or package installed. Its folder was emptied, its transcript moved out of the run tree, and a new session (not a resumed one) was started with the same message. That transcript is [`U1/false-start-transcript.md`](U1/false-start-transcript.md). It isn't counted as a hint, because nothing was said to the agent about the task.
-- In U1, Claude Code saved the two large MCP search results to files under `~/.claude/projects/.../tool-results/`, outside the run folder, and the agent changed into that folder to read them. This is logged as an issue in the run log and as finding F12.
+- In U1, Claude Code saved the two large MCP search results to files under `~/.claude/projects/.../tool-results/`, outside the run folder, and the agent changed into that folder to read them. This is logged as an issue in the run log and as finding F12. The same happened in U2 with its one large search result. U2 also wrote checksums of the asset files to Claude Code's session scratchpad under `/tmp/claude-1000/`, outside the run folder, which is logged as an issue too.
+- Before the U2 session, [`make_u2_assets.py`](../../make_u2_assets.py) created `table.usda` and `chair.usda` in the empty folder. They matched the Tier 1 files byte for byte. The rerun created fresh copies in its own folder.
 - The MCP results the agent relied on were checked the same way as its cited pages: against usd-core 26.11 and the live docs. The full results come from the session's log, since `/export` collapses tool calls.
 - The reviewer reran the agent's `task.py` on 2026-10-26 in a clean folder with a fresh virtual environment, Python 3.12.3, and usd-core 26.11, using the commands in [tasks.md](../../tasks.md#scoring). The rerun folders have no MCP server registered.
 
@@ -38,7 +39,7 @@ Checked 2026-10-26, after U1: https://openusd.org/llms.txt and https://openusd.o
 | Task | Outcome | Hints | MCP calls | Folder |
 | --- | --- | --- | --- | --- |
 | U1 | pass-with-issues | 0 | 3 | [U1](U1/) |
-| U2 | not yet run | | | |
+| U2 | pass-with-issues | 0 | 2 | [U2](U2/) |
 | U3 | not yet run | | | |
 | U4 | not yet run | | | |
 | U5 | not yet run | | | |
