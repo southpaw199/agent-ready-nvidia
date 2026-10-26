@@ -12,7 +12,7 @@ A second agent on the same tasks, so findings can be compared across model famil
 | Operating system | Ubuntu 24.04 under WSL 2 on Windows 11 |
 | Python | 3.12.3 |
 | usd-core | 26.11 (agent's install and the reviewer's rerun) |
-| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-25-codex/` (`U1/` to `U3/`), outside this repository; each rerun was in a `-rerun` folder beside it |
+| Working folder | A new, empty folder per task under `~/agent-runs/nvidia/2026-10-25-codex/` (`U1/` to `U4/`), outside this repository; each rerun was in a `-rerun` folder beside it |
 | User instructions | None (`AGENTS.md` absent) |
 | Approvals | `approval_policy = "on-request"`, workspace sandbox: every command needing the network asked for approval |
 | Web search | Off (`web_search = "disabled"`), because Codex's search tool doesn't ask before each search |
@@ -45,5 +45,6 @@ Checked 2026-10-25: https://openusd.org/llms.txt still returned 404, and https:/
 | U1 | pass-with-issues | 0 | [U1](U1/) |
 | U2 | pass-with-issues | 0 | [U2](U2/) |
 | U3 | pass-with-issues | 0 | [U3](U3/) |
+| U4 | pass-with-issues | 0 | [U4](U4/) |
 
 Each task folder holds the agent's final `task.py` and its exported conversation, `transcript.md` (and, in U1, its `SOURCES.md`), plus the reviewer's `rerun-output.txt` and `check-output.txt`, as in the [Claude Code run](../2026-10-25-claude-code/).
