@@ -1,0 +1,2 @@
+references.usda: open_seconds=0.034614, traversed_prims=2001, prototypes=0
+instanced.usda: open_seconds=0.021343, traversed_prims=1001, prototypes=1

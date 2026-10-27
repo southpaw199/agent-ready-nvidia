@@ -24,15 +24,16 @@ The Tier 1 tasks run again with NVIDIA's USD Code MCP server available, under me
 
 ## Entry points on the day of the run
 
-Checked 2026-10-26, for the Claude Code docs+mcp run: https://openusd.org/llms.txt and https://openusd.org/release/llms.txt return 404, https://docs.nvidia.com/learn-openusd/llms.txt returns the 27-line course index, and https://docs.nvidia.com/learn-openusd redirects (301) to `https://docs.nvidia.com/learn-openusd/`, which returns 404. The agent used none of them in U1 to U3.
+Checked 2026-10-26, for the Claude Code docs+mcp run: https://openusd.org/llms.txt and https://openusd.org/release/llms.txt return 404, https://docs.nvidia.com/learn-openusd/llms.txt returns the 27-line course index, and https://docs.nvidia.com/learn-openusd redirects (301) to `https://docs.nvidia.com/learn-openusd/`, which returns 404. The agent used none of them in U1 to U4.
 
 ## Notes
 
 - No Codex processes were running before U1, so the session started its own 0.164.0 background server. The U1 server was still running when U2 started, so the reviewer stopped it and restarted the U2 session before giving it the prompt; U2 started its own server. Each later session does the same. Each session was launched from a terminal with no virtual environment active, and each agent's `.venv/pyvenv.cfg` confirms its environment was created by `/usr/bin/python3`.
-- Before the U2 session, [`make_u2_assets.py`](../../make_u2_assets.py) created `table.usda` and `chair.usda` in the empty folder. They matched the Tier 1 files byte for byte. The rerun created fresh copies in its own folder. U3 was set up the same way with [`make_u3_assets.py`](../../make_u3_assets.py) and `mug.usda`.
+- Before the U2 session, [`make_u2_assets.py`](../../make_u2_assets.py) created `table.usda` and `chair.usda` in the empty folder. They matched the Tier 1 files byte for byte. The rerun created fresh copies in its own folder. U3 and U4 were set up the same way, with [`make_u3_assets.py`](../../make_u3_assets.py) for `mug.usda` and [`make_u4_assets.py`](../../make_u4_assets.py) for `crate.usda`.
 - As in Tier 1, the sandbox blocked network access until a command was approved, so the first page fetch and the first `pip install` failed, then succeeded once approved. In U1, the first fetch tried to save the page to `/tmp`, outside the folder, which is logged as an issue under method 0.3.
 - Codex passes an oversized MCP result to the agent truncated, instead of saving it to a file as Claude Code does. In U1, the agent saw part of a result of about 45,100 tokens, and in U2, parts of two results of about 45,100 and 49,000 tokens (finding F12). U2 had no reads, writes, or commands outside its folder.
 - U3 is the first clean `pass` in the NVIDIA review. It read only three openusd.org tutorials, all with Python examples, and one `get_usd_method_detail` lookup supplied the remaining Python names. So, unlike every earlier run, it relied on no OpenUSD knowledge from memory (finding F2). It also did nothing outside its folder. Its `scene.usda` authors `/World/Mug` as `over "Mug"`, following the Referencing Layers tutorial's `OverridePrim`; the Cylinder type comes from the reference.
+- In U4, the agent timed each file's open in a fresh Python process, so neither benefits from the other's cache, and said the timings don't establish a reliable speedup. It's the first run in either condition to deal with the first-open cost directly. U4 had no reads, writes, or commands outside its folder.
 - Codex saved each docs page it downloaded in its folder (`docs-*.html`). The saved pages aren't kept here. The transcripts keep the commands and the agent's messages; page text and MCP result text that the commands printed are replaced with a line naming the page or the tool, as in the Tier 1 Codex transcripts. The full output is in the session log.
 - The MCP results the agent relied on were checked the same way as its cited pages: against usd-core 26.11 and the live docs.
 - The reviewer reran the agent's `task.py` on 2026-10-26 in a clean folder with a fresh virtual environment, Python 3.12.3, and usd-core 26.11, using the commands in [tasks.md](../../tasks.md#scoring). The rerun folders have no MCP server registered.
@@ -44,7 +45,7 @@ Checked 2026-10-26, for the Claude Code docs+mcp run: https://openusd.org/llms.t
 | U1 | pass-with-issues | 0 | 1 | [U1](U1/) |
 | U2 | pass-with-issues | 0 | 2 | [U2](U2/) |
 | U3 | pass | 0 | 2 | [U3](U3/) |
-| U4 | not yet run | | | |
+| U4 | pass-with-issues | 0 | 1 | [U4](U4/) |
 | U5 | not yet run | | | |
 
 Each task folder holds the agent's final `task.py`, the exported conversation `transcript.md`, `rerun-output.txt` from the reviewer's rerun, and `check-output.txt` from the task's checker on that rerun.
