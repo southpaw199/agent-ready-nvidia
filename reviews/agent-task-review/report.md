@@ -116,23 +116,32 @@ NVIDIA publishes MCP servers for its documentation, and [USD Code MCP](https://g
 
 ### Results
 
-Each cell gives the docs-only run first, then the run with the server.
-
-| Task | Agent | Outcome | Time (min) | Errors recovered | MCP calls | Pages cited / MCP results cited |
-| --- | --- | --- | --- | --- | --- | --- |
-| U1 | Claude Code | with issues / with issues | 6 / 8 | 1 / 2 | 3: code examples ×2, method lookup | 15 / 11, and 0 / 3 |
-| U1 | Codex | with issues / with issues | 3 / 2 | 4 / 2 | 1: knowledge search | 10 / 9, and 0 / 0 |
-| U2 | Claude Code | with issues / with issues | 4 / 5 | 2 / 1 | 2: code examples, method lookup | 11 / 6, and 0 / 2 |
-| U2 | Codex | with issues / with issues | 5 / 2.5 | 2 / 2 | 2: knowledge search, code examples | 7 / 8, and 0 / 1 |
-| U3 | Claude Code | with issues / with issues | 5 / 6 | 0 / 3 | 2: code examples, method lookup | 11 / 7, and 0 / 1 |
-| U3 | Codex | with issues / **pass** | 3 / 1.5 | 2 / 2 | 2: knowledge search, method lookup | 7 / 3, and 0 / 1 |
-| U4 | Claude Code | with issues / with issues | 5 / 3 | 0 / 1 | 2: method lookup ×2 | 12 / 8, and 0 / 2 |
-| U4 | Codex | with issues / with issues | 6 / 1.5 | 3 / 2 | 1: knowledge search | 7 / 6, and 0 / 0 |
-| U5 | Claude Code | with issues / with issues | 4 / 3.5 | 0 / 1 | 5: knowledge search ×2, method lookup ×3 | 8 / 7, and 0 / 3 |
-| U5 | Codex | with issues / with issues | 4 / 1.5 | 4 / 2 | 1: knowledge search | 7 / 6, and 0 / 0 |
+| Task | Agent | Docs given | Outcome | Time (min) | Errors recovered | MCP calls | Pages cited | MCP results cited |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| U1 | Claude Code | Docs only | With issues | 6 | 1 | — | 15 | — |
+| U1 | Claude Code | Docs and server | With issues | 8 | 2 | 3: code examples ×2, method lookup | 11 | 3 |
+| U1 | Codex | Docs only | With issues | 3 | 4 | — | 10 | — |
+| U1 | Codex | Docs and server | With issues | 2 | 2 | 1: knowledge search | 9 | 0 |
+| U2 | Claude Code | Docs only | With issues | 4 | 2 | — | 11 | — |
+| U2 | Claude Code | Docs and server | With issues | 5 | 1 | 2: code examples, method lookup | 6 | 2 |
+| U2 | Codex | Docs only | With issues | 5 | 2 | — | 7 | — |
+| U2 | Codex | Docs and server | With issues | 2.5 | 2 | 2: knowledge search, code examples | 8 | 1 |
+| U3 | Claude Code | Docs only | With issues | 5 | 0 | — | 11 | — |
+| U3 | Claude Code | Docs and server | With issues | 6 | 3 | 2: code examples, method lookup | 7 | 1 |
+| U3 | Codex | Docs only | With issues | 3 | 2 | — | 7 | — |
+| U3 | Codex | Docs and server | **Pass** | 1.5 | 2 | 2: knowledge search, method lookup | 3 | 1 |
+| U4 | Claude Code | Docs only | With issues | 5 | 0 | — | 12 | — |
+| U4 | Claude Code | Docs and server | With issues | 3 | 1 | 2: method lookup ×2 | 8 | 2 |
+| U4 | Codex | Docs only | With issues | 6 | 3 | — | 7 | — |
+| U4 | Codex | Docs and server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
+| U5 | Claude Code | Docs only | With issues | 4 | 0 | — | 8 | — |
+| U5 | Claude Code | Docs and server | With issues | 3.5 | 1 | 5: knowledge search ×2, method lookup ×3 | 7 | 3 |
+| U5 | Codex | Docs only | With issues | 4 | 4 | — | 7 | — |
+| U5 | Codex | Docs and server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
 
 **Reading the table**
-- **Outcome** uses the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/rubric.md): "with issues" means pass-with-issues.
+- **Outcome** uses the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/rubric.md): "With issues" means pass-with-issues.
+- **MCP calls** and **MCP results cited** don't apply to docs-only runs, which had no server.
 - **Time** is the session's length, from the prompt to the final answer. It includes the time spent waiting at approval prompts, so treat it as rough.
 - **Errors recovered** counts commands or fetches that failed and were then retried or worked around. Most of Codex's errors came from its sandbox blocking the network until a command was approved.
 - **MCP results cited** counts results an agent named as the source of a step.
