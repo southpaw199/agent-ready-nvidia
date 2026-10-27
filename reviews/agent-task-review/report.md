@@ -2,12 +2,6 @@
 
 **Author:** Alan Sloan · [linkedin.com/in/alansloan](https://www.linkedin.com/in/alansloan) · [github.com/southpaw199](https://github.com/southpaw199)
 
-- **Method:** agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the reruns with NVIDIA's MCP server
-- **Agents:** Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low")
-- **Runs:** October 25, 2026, against the live docs at [openusd.org](https://openusd.org) and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/), with usd-core 26.11 from PyPI on Python 3.12.3. Rerun on October 26, 2026, with NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) server also available (commit `4ce780d`, Docker image `360aaf4962b4`).
-- **Findings checked against the live docs:** October 25, 2026; the MCP server's results, against usd-core 26.11 and the live docs, on October 26, 2026
-- **Scope:** Tier 1, five hands-on OpenUSD tasks that run on a CPU. Omniverse and Isaac Sim, which need an RTX GPU, are covered by the question set in Tiers 2 and 3.
-
 ## About this review
 
 This case study is part of [agent-ready-docs](https://github.com/southpaw199/agent-ready-docs), a project that tests whether documentation works for AI agents as well as for people.
@@ -24,6 +18,17 @@ An [agent task review](https://github.com/southpaw199/agent-ready-docs/blob/main
 6. **Report by root cause.** Each finding is traced to a cause, such as a missing prerequisite, an incomplete example, or a page the agent couldn't find, and comes with a specific fix. The report also credits what the docs do well.
 
 Each run is scored pass, pass with issues, pass with hints, or fail, and each finding is rated High, Medium, or Low severity, using a shared [rubric](https://github.com/southpaw199/agent-ready-docs/blob/main/methods/agent-task-review/rubric.md) so results can be compared across case studies.
+
+## This review
+
+This review is Tier 1 of the NVIDIA case study: five hands-on OpenUSD tasks that run on a CPU. Omniverse and Isaac Sim, which need an RTX GPU, are covered by the question set in Tiers 2 and 3. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available.
+
+| Detail | Value |
+| --- | --- |
+| Method | Agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the reruns with NVIDIA's MCP server |
+| Agents | Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low") |
+| Runs | October 25, 2026, against the live docs at [openusd.org](https://openusd.org) and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/), with usd-core 26.11 from PyPI on Python 3.12.3. Rerun on October 26, 2026, with NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) server also available (commit `4ce780d`, Docker image `360aaf4962b4`). |
+| Findings checked against the live docs | October 25, 2026; the MCP server's results, against usd-core 26.11 and the live docs, on October 26, 2026 |
 
 ## Summary
 
