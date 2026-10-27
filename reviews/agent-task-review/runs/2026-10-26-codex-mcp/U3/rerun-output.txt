@@ -1,0 +1,5 @@
+Variants: ['blue', 'red']
+Selection: blue
+Display color: [(0, 0, 1)]
+Selection: red
+Display color: [(1, 0, 0)]
