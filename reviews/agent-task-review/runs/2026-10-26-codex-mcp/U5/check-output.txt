@@ -1,0 +1,17 @@
+PASS  C1  report.json is a JSON object mapping each file to a list of codes
+PASS  C2  good.usda unchanged from make_u5_assets.py
+PASS  C2  y_up_centimeters.usda unchanged from make_u5_assets.py
+PASS  C2  no_up_axis.usda unchanged from make_u5_assets.py
+PASS  C2  no_units.usda unchanged from make_u5_assets.py
+PASS  C2  broken_reference.usda unchanged from make_u5_assets.py
+PASS  C2  nested_broken_reference.usda unchanged from make_u5_assets.py
+PASS  C2  two_problems.usda unchanged from make_u5_assets.py
+PASS  C2  parts/lamp.usda unchanged from make_u5_assets.py
+PASS  C2  parts/shelf.usda unchanged from make_u5_assets.py
+PASS  C3  report covers exactly the top-level files: missing none, extra none
+PASS  C4  up-axis and units codes right for every file; wrong: none
+PASS  C5  broken_reference right for every file, including nested ones and payloads; wrong: none; unknown codes: none
+NOTE  file set: main
+NOTE  how task.py finds the problems: checks written by hand
+
+13 of 13 checks passed; 0 issue(s) to review

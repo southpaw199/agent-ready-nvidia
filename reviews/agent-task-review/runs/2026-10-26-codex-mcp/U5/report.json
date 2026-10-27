@@ -1,0 +1,21 @@
+{
+  "broken_reference.usda": [
+    "broken_reference"
+  ],
+  "good.usda": [],
+  "nested_broken_reference.usda": [
+    "broken_reference"
+  ],
+  "no_units.usda": [
+    "missing_meters_per_unit"
+  ],
+  "no_up_axis.usda": [
+    "missing_up_axis"
+  ],
+  "two_problems.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit",
+    "broken_reference"
+  ],
+  "y_up_centimeters.usda": []
+}
