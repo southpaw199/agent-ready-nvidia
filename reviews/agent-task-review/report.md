@@ -48,9 +48,9 @@ No finding about the docs is High. Two of the MCP server's candidate findings ar
 
 ### 1. The API reference doesn't show Python names
 
-| Severity | Seen with | Log |
+| ID | Severity | Seen with |
 | --- | --- | --- |
-| Medium | Both agents, in nine of the ten runs | F2 |
+| F2 | Medium | Both agents, in nine of the ten runs |
 
 The openusd.org API reference is generated from the C++ source, so it shows C++ signatures only. Agents writing Python have to translate the names themselves, and the patterns aren't uniform:
 
@@ -70,9 +70,9 @@ The openusd.org API reference is generated from the C++ source, so it shows C++ 
 
 ### 2. usd-core's built-in validators are off the path
 
-| Severity | Seen with | Log |
+| ID | Severity | Seen with |
 | --- | --- | --- |
-| Medium | Both agents | F3 |
+| F3 | Medium | Both agents |
 
 usd-core 26.11 includes the `UsdValidation` framework, with built-in validators for exactly what U5 asked for: `usdGeomValidators:StageMetadataChecker` reports a missing up axis or units, and `usdUtilsValidators:MissingReferenceValidator` reports unresolvable references, payloads, and sublayers. The older `UsdUtils.ComplianceChecker` is gone from the library, and its page returns 404. But nothing either agent read led to the validators:
 
