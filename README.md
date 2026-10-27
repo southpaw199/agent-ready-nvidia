@@ -82,13 +82,14 @@ NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/
 
 **Both used it in all ten runs, and the outcomes barely changed.** Nine runs passed with issues, and one, Codex on U3, passed cleanly, the only clean pass in the review. The server's method lookups were accurate and filled some of the Python gaps, but finding 1 still recurred in nine of the ten runs. Its search tools returned results too large to use whole, and some were wrong or came from other sites, though no agent relied on those.
 
-| Task | Claude Code, docs only / with MCP | Codex, docs only / with MCP |
-| --- | --- | --- |
-| U1 | Pass with issues / Pass with issues | Pass with issues / Pass with issues |
-| U2 | Pass with issues / Pass with issues | Pass with issues / Pass with issues |
-| U3 | Pass with issues / Pass with issues | Pass with issues / **Pass** |
-| U4 | Pass with issues / Pass with issues | Pass with issues / Pass with issues |
-| U5 | Pass with issues / Pass with issues | Pass with issues / Pass with issues |
+| Agent | Docs given | U1 | U2 | U3 | U4 | U5 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Claude Code | Docs only | With issues | With issues | With issues | With issues | With issues |
+| Claude Code | Docs and server | With issues | With issues | With issues | With issues | With issues |
+| Codex | Docs only | With issues | With issues | With issues | With issues | With issues |
+| Codex | Docs and server | With issues | With issues | **Pass** | With issues | With issues |
+
+"With issues" means pass with issues: every success criterion was met with no hints, but the run relied on knowledge not in the docs, or had a similar gap.
 
 Rerun on October 26, 2026, with the same agents and usd-core version, under [method](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) version 0.3, with the server at commit `4ce780d`.
 
