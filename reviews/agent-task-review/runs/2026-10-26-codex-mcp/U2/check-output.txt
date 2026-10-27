@@ -1,0 +1,21 @@
+PASS  C1  scene.usda: first line '#usda 1.0' (text .usda expected)
+PASS  C1  overrides.usda: first line '#usda 1.0' (text .usda expected)
+PASS  C2  table.usda unchanged from make_u2_assets.py
+PASS  C2  chair.usda unchanged from make_u2_assets.py
+PASS  C3  scene.usda opens with Usd.Stage.Open
+PASS  C3  default prim: /World (Xform)
+PASS  C4  /World/Table: reference arcs to ['/home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U2-rerun/table.usda']; composed type Cube (expected table.usda in this folder)
+PASS  C4  /World/Chair: reference arcs to ['/home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U2-rerun/chair.usda']; composed type Cube (expected chair.usda in this folder)
+PASS  C5  overrides.usda composed into scene.usda: layers used by the stage: ['chair.usda', 'overrides.usda', 'scene.usda', 'table.usda']
+PASS  C6  table composed color: (0.0, 0.0, 1.0) (expected (0, 0, 1))
+PASS  C6  chair composed color: (0.0, 1.0, 0.0) (expected (0, 1, 0))
+PASS  C6  layers with an opinion on the table's color, strongest first: ['overrides.usda', 'table.usda'] (expected overrides.usda first, none in scene.usda)
+NOTE  overrides.usda brought in as: a sublayer of scene.usda
+NOTE  composition arcs on /World/Table, strongest first: [('Root', 'scene.usda'), ('Reference', 'table.usda')]
+NOTE  /World/Table references as authored: [('./table.usda', '')] (empty prim path means the asset's default prim)
+NOTE  /World/Chair references as authored: [('./chair.usda', '')] (empty prim path means the asset's default prim)
+NOTE  sublayer paths as authored: ['./overrides.usda']
+NOTE  scene.usda upAxis authored: False; metersPerUnit authored: False
+NOTE  other prims: none
+
+12 of 12 checks passed; 0 issue(s) to review
