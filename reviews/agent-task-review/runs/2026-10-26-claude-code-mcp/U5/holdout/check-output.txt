@@ -1,0 +1,13 @@
+PASS  C6  holdout: report.json is a JSON object mapping each file to a list of codes
+PASS  C6  holdout: kitchen.usda unchanged from make_u5_assets.py
+PASS  C6  holdout: garage.usda unchanged from make_u5_assets.py
+PASS  C6  holdout: attic.usda unchanged from make_u5_assets.py
+PASS  C6  holdout: cellar.usda unchanged from make_u5_assets.py
+PASS  C6  holdout: parts/kitchen_props.usda unchanged from make_u5_assets.py
+PASS  C6  holdout: report covers exactly the top-level files: missing none, extra none
+PASS  C6  holdout: up-axis and units codes right for every file; wrong: none
+PASS  C6  holdout: broken_reference right for every file, including nested ones and payloads and sublayers; wrong: none; unknown codes: none
+NOTE  file set: holdout
+NOTE  how task.py finds the problems: checks written by hand
+
+9 of 9 checks passed; 0 issue(s) to review

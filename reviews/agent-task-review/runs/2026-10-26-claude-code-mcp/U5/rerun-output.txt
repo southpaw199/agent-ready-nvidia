@@ -1,0 +1,23 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Chair>: Could not open asset @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/parts/missing_chair.usda@ for reference introduced by @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/broken_reference.usda@</World/Chair>. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/broken_reference.usda@ <0x36d788a0>)
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- In </World/Shelf>: Could not open asset @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/parts/missing_books.usda@ for reference introduced by @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/parts/shelf.usda@</Shelf>. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun/nested_broken_reference.usda@ <0x36d7b9b0>)
+{
+  "broken_reference.usda": [
+    "broken_reference"
+  ],
+  "good.usda": [],
+  "nested_broken_reference.usda": [
+    "broken_reference"
+  ],
+  "no_units.usda": [
+    "missing_meters_per_unit"
+  ],
+  "no_up_axis.usda": [
+    "missing_up_axis"
+  ],
+  "two_problems.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit",
+    "broken_reference"
+  ],
+  "y_up_centimeters.usda": []
+}
