@@ -1,0 +1,15 @@
+Warning: in _ReportErrors at line 3326 of /opt/USD/pxr/usd/usd/stage.cpp -- Could not load sublayer @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun-holdout/parts/missing_attic_layer.usda@ of layer @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun-holdout/attic.usda@; skipping. (instantiating stage on stage @/home/southpaw199/agent-runs/nvidia/2026-10-26-claude-code-mcp/U5-rerun-holdout/attic.usda@ <0x3521d5d0>)
+{
+  "attic.usda": [
+    "broken_reference"
+  ],
+  "cellar.usda": [
+    "missing_up_axis",
+    "broken_reference"
+  ],
+  "garage.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit"
+  ],
+  "kitchen.usda": []
+}
