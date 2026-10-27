@@ -1,0 +1,24 @@
+WARNING: broken_reference.usda: /home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U5-rerun/broken_reference.usda cannot resolve ./parts/missing_chair.usda
+WARNING: nested_broken_reference.usda: /home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U5-rerun/parts/shelf.usda cannot resolve ./missing_books.usda
+WARNING: two_problems.usda: /home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U5-rerun/two_problems.usda cannot resolve ./parts/missing_rug.usda
+{
+  "broken_reference.usda": [
+    "broken_reference"
+  ],
+  "good.usda": [],
+  "nested_broken_reference.usda": [
+    "broken_reference"
+  ],
+  "no_units.usda": [
+    "missing_meters_per_unit"
+  ],
+  "no_up_axis.usda": [
+    "missing_up_axis"
+  ],
+  "two_problems.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit",
+    "broken_reference"
+  ],
+  "y_up_centimeters.usda": []
+}

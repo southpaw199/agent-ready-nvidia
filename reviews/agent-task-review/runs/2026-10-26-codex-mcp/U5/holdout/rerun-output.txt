@@ -1,0 +1,16 @@
+WARNING: attic.usda: /home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U5-rerun-holdout/attic.usda cannot resolve ./parts/missing_attic_layer.usda
+WARNING: cellar.usda: /home/southpaw199/agent-runs/nvidia/2026-10-26-codex-mcp/U5-rerun-holdout/cellar.usda cannot resolve ./parts/missing_barrel.usda
+{
+  "attic.usda": [
+    "broken_reference"
+  ],
+  "cellar.usda": [
+    "missing_up_axis",
+    "broken_reference"
+  ],
+  "garage.usda": [
+    "missing_up_axis",
+    "missing_meters_per_unit"
+  ],
+  "kitchen.usda": []
+}
