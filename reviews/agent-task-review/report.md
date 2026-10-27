@@ -38,11 +38,19 @@ The docs carried the agents a long way. Neither agent was told to use sublayers,
 
 ## Main findings
 
-Severity: **High** means an agent following the docs would fail or get a wrong result; **Medium**, the task succeeds, but only with knowledge the docs don't give or by a route they don't point to; **Low**, friction or polish. No finding about the docs is High. Two of the MCP server's candidate findings are, in [Server findings](#server-findings).
+| Severity | Criteria |
+| --- | --- |
+| **High** | An agent following the docs would fail or get a wrong result. |
+| **Medium** | The task succeeds, but only with knowledge the docs don't give or by a route they don't point to. |
+| **Low** | Friction or polish. |
 
-### 1. The API reference doesn't show Python names (F2)
+No finding about the docs is High. Two of the MCP server's candidate findings are, in [Server findings](#server-findings).
 
-**Medium. Seen with both agents, in nine of the ten runs.**
+### 1. The API reference doesn't show Python names
+
+| Severity | Seen with | Log |
+| --- | --- | --- |
+| Medium | Both agents, in nine of the ten runs | F2 |
 
 The openusd.org API reference is generated from the C++ source, so it shows C++ signatures only. Agents writing Python have to translate the names themselves, and the patterns aren't uniform:
 
@@ -60,9 +68,11 @@ The openusd.org API reference is generated from the C++ source, so it shows C++ 
 
 **Suggested fix:** add a short page to the openusd.org [Developer Guides](https://openusd.org/dev/api/_developer__guides.html) on how C++ names map to Python, covering library prefixes, free functions, tokens, and properties, and link it from the API reference's front page and from the Learn OpenUSD Python examples. *We haven't found such a page; the Developer Guides and Coding Guidelines don't cover Python.*
 
-### 2. usd-core's built-in validators are off the path (F3)
+### 2. usd-core's built-in validators are off the path
 
-**Medium. Seen with both agents.**
+| Severity | Seen with | Log |
+| --- | --- | --- |
+| Medium | Both agents | F3 |
 
 usd-core 26.11 includes the `UsdValidation` framework, with built-in validators for exactly what U5 asked for: `usdGeomValidators:StageMetadataChecker` reports a missing up axis or units, and `usdUtilsValidators:MissingReferenceValidator` reports unresolvable references, payloads, and sublayers. The older `UsdUtils.ComplianceChecker` is gone from the library, and its page returns 404. But nothing either agent read led to the validators:
 
@@ -76,10 +86,12 @@ usd-core 26.11 includes the `UsdValidation` framework, with built-in validators 
 
 ## Minor findings
 
-- **F1. The usd-core install steps live inside the usdview page.** Learn OpenUSD's only `pip install usd-core` instructions are part of [Installing usdview and Setting Up Python](https://docs.nvidia.com/learn-openusd/latest/usdview-install-instructions.html), after downloading NVIDIA's prebuilt binaries. Neither agent needed them, because the task told them to install usd-core, and in U2 search found the page. *Fix:* a short standalone section for installing usd-core with pip.
-- **F4. No `llms.txt` at openusd.org.** It returns 404, and so does Learn OpenUSD's address without `/latest/`, although Learn OpenUSD's own [`llms.txt`](https://docs.nvidia.com/learn-openusd/llms.txt) works. Neither agent looked for one in any run, so this cost them nothing here. *Fix:* publish an `llms.txt` at openusd.org, and redirect `docs.nvidia.com/learn-openusd` to `/latest/`.
-- **F5. API pages don't say which version they describe.** The openusd.org API reference under `/dev/` and `/release/` shows only a generation date, and searches also return older sets such as `/22.08/`. Claude Code cited `/dev/` pages for usd-core 26.11 in two tasks. Nothing went wrong, but a reader can't tell. *Fix:* show the release number in the API page header, as the tutorials already do.
-- **F6. No documented way to tell whether an up axis is authored.** There's `UsdGeomStageHasAuthoredMetersPerUnit()` but no up axis equivalent, and the up axis page only says an unauthored axis returns the fallback. Both agents found another way in U5. *Fix:* one line on the up axis page pointing to `stage.HasAuthoredMetadata("upAxis")`.
+| ID | Finding | Severity | Suggested fix |
+| --- | --- | --- | --- |
+| F1 | **The usd-core install steps live inside the usdview page.** Learn OpenUSD's only `pip install usd-core` instructions are part of [Installing usdview and Setting Up Python](https://docs.nvidia.com/learn-openusd/latest/usdview-install-instructions.html), after downloading NVIDIA's prebuilt binaries. Neither agent needed them, because the task told them to install usd-core, and in U2 search found the page. | Low | A short standalone section for installing usd-core with pip. |
+| F4 | **No `llms.txt` at openusd.org.** It returns 404, and so does Learn OpenUSD's address without `/latest/`, although Learn OpenUSD's own [`llms.txt`](https://docs.nvidia.com/learn-openusd/llms.txt) works. Neither agent looked for one in any run, so this cost them nothing here. | Low | Publish an `llms.txt` at openusd.org, and redirect `docs.nvidia.com/learn-openusd` to `/latest/`. |
+| F5 | **API pages don't say which version they describe.** The openusd.org API reference under `/dev/` and `/release/` shows only a generation date, and searches also return older sets such as `/22.08/`. Claude Code cited `/dev/` pages for usd-core 26.11 in two tasks. Nothing went wrong, but a reader can't tell. | Low | Show the release number in the API page header, as the tutorials already do. |
+| F6 | **No documented way to tell whether an up axis is authored.** There's `UsdGeomStageHasAuthoredMetersPerUnit()` but no up axis equivalent, and the up axis page only says an unauthored axis returns the fallback. Both agents found another way in U5. | Low | One line on the up axis page pointing to `stage.HasAuthoredMetadata("upAxis")`. |
 
 The full evidence for each finding, with run references, is in the [findings log](findings.md).
 
@@ -145,21 +157,18 @@ Each cell gives the docs-only run first, then the run with the server.
 
 ### Server findings
 
-These are candidates, found while setting up the server or in the reruns. They're about the server, not the docs. The full evidence is in the [findings log](findings.md).
+These are candidates, found while setting up the server or in the reruns. They're about the server, not the docs. They use the same severity scale as the docs findings, and are sorted by severity. The full evidence is in the [findings log](findings.md).
 
-- **F12. Search results are too large to use.** Every `search_usd_code_examples` and `search_usd_knowledge` result was 45,000 to 66,000 tokens, or 70 to 120 KB, and up to 90 examples. Claude Code saved them outside the run folder and twice gave up on them. Codex passed the agent only the start. **Low.** *Fix:* return fewer examples by default, with a way to ask for more.
-- **F9. A world bounding-box example ignores the transform.** The top result for a bounding-box query prints `GetRange()`, not `ComputeAlignedRange()`. On U1's scene, that puts the cube half below the ground. Claude Code noticed and didn't use it. **High, candidate:** an agent that copied it would report the wrong box.
-- **F11. displayColor examples author the wrong attribute.** 8 of 35 examples in one result create a plain `displayColor` attribute, so the object isn't colored. **High, candidate:** copying one would fail U1's color check.
-- **F13. Examples from Windows test code.** 57 of 88 examples in one result build paths under `C:/usd/`. The top sublayer example adds a missing path instead of the layer it created. **Medium, candidate.**
-- **F14. Sources beyond the official docs.** Knowledge results mix openusd.org with GitHub repositories, including the third-party *VFX-UsdSurvivalGuide*, and Remedy Entertainment's *USD Book*. That held even when the query asked for the two allowed sites only. All five Codex sessions noticed and excluded them. **Low.**
-- **F10. Method lookups can return the wrong methods.** In one call, two of three names returned other classes' methods. **Low.**
-- **F7 and F8. Setup.** The README's quickstart fails four ways on a stock Ubuntu 24.04 system:
-  - its scripts aren't executable;
-  - Poetry is missing from the prerequisites;
-  - `pip install --user` is blocked;
-  - the health check needs `aiohttp`.
-
-  The README also says both 7 and 34 tools; the server has 7. **Medium and Low.**
+| ID | Finding | Severity | Suggested fix |
+| --- | --- | --- | --- |
+| F9 | **A world bounding-box example ignores the transform.** The top result for a bounding-box query prints `GetRange()`, not `ComputeAlignedRange()`. On U1's scene, that puts the cube half below the ground. An agent that copied it would report the wrong box. Claude Code noticed and didn't use it. | High | — |
+| F11 | **displayColor examples author the wrong attribute.** 8 of 35 examples in one result create a plain `displayColor` attribute, so the object isn't colored. Copying one would fail U1's color check. | High | — |
+| F7 | **The README's quickstart fails on a stock Ubuntu 24.04 system.** It fails four ways: its scripts aren't executable, Poetry is missing from the prerequisites, `pip install --user` is blocked, and the health check needs `aiohttp`. | Medium | — |
+| F13 | **Examples from Windows test code.** 57 of 88 examples in one result build paths under `C:/usd/`. The top sublayer example adds a missing path instead of the layer it created. | Medium | — |
+| F8 | **The README gives two tool counts.** It says both 7 and 34 tools; the server has 7. | Low | — |
+| F10 | **Method lookups can return the wrong methods.** In one call, two of three names returned other classes' methods. | Low | — |
+| F12 | **Search results are too large to use.** Every `search_usd_code_examples` and `search_usd_knowledge` result was 45,000 to 66,000 tokens, or 70 to 120 KB, and up to 90 examples. Claude Code saved them outside the run folder and twice gave up on them. Codex passed the agent only the start. | Low | Return fewer examples by default, with a way to ask for more. |
+| F14 | **Sources beyond the official docs.** Knowledge results mix openusd.org with GitHub repositories, including the third-party *VFX-UsdSurvivalGuide*, and Remedy Entertainment's *USD Book*. That held even when the query asked for the two allowed sites only. All five Codex sessions noticed and excluded them. | Low | — |
 
 ### Conclusions
 
