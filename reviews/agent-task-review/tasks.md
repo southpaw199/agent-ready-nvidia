@@ -1,6 +1,6 @@
 # NVIDIA: agent task review tasks
 
-- **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2 for the Tier 1 docs-only runs, and 0.3 for the docs+mcp reruns
+- **Method:** agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the Tier 1 docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the docs+mcp reruns
 - **Docs given to the agent, Tier 1:** openusd.org and docs.nvidia.com/learn-openusd, with no entry page named
 - **Docs+MCP condition:** the same five tasks, prompts, and checkers, with NVIDIA's USD Code MCP server (`NVIDIA-Omniverse/kit-usd-agents` at commit `4ce780d`, Docker image `360aaf4962b4`) also available, registered only in each run's folder
 - **Environment for every run:** Ubuntu 24.04 under WSL 2, Python 3.12.3, a new empty folder outside this repository (`~/agent-runs/nvidia/<run_id>/<task>/`, for example `~/agent-runs/nvidia/2026-10-25-codex/U1/`), and a fresh agent session with no project instructions or memory, started from a terminal with no virtual environment active (run `deactivate` first), so the agent doesn't inherit a rerun's Python
@@ -47,7 +47,7 @@ mkdir -p ~/agent-runs/nvidia/reference/U1 && cd ~/agent-runs/nvidia/reference/U1
 python3 --version                # expect 3.12.3
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
-R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+R=~/projects/agent-ready-nvidia/reviews/agent-task-review
 cp $R/reference/U1/task.py .
 python task.py
 python $R/check_u1.py scene.usda
@@ -59,7 +59,7 @@ U2 needs its asset files in the folder first:
 mkdir -p ~/agent-runs/nvidia/reference/U2 && cd ~/agent-runs/nvidia/reference/U2
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
-R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+R=~/projects/agent-ready-nvidia/reviews/agent-task-review
 python $R/make_u2_assets.py .
 cp $R/reference/U2/task.py .
 python task.py
@@ -72,7 +72,7 @@ U3 works the same way, with its own asset file:
 mkdir -p ~/agent-runs/nvidia/reference/U3 && cd ~/agent-runs/nvidia/reference/U3
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
-R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+R=~/projects/agent-ready-nvidia/reviews/agent-task-review
 python $R/make_u3_assets.py .
 cp $R/reference/U3/task.py .
 python task.py > rerun-output.txt 2>&1
@@ -85,7 +85,7 @@ U4 the same way:
 mkdir -p ~/agent-runs/nvidia/reference/U4 && cd ~/agent-runs/nvidia/reference/U4
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
-R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+R=~/projects/agent-ready-nvidia/reviews/agent-task-review
 python $R/make_u4_assets.py .
 cp $R/reference/U4/task.py .
 python task.py
@@ -95,7 +95,7 @@ python $R/check_u4.py .
 U5 runs on two sets of files, the main set and the holdout set:
 
 ```bash
-R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+R=~/projects/agent-ready-nvidia/reviews/agent-task-review
 mkdir -p ~/agent-runs/nvidia/reference/U5 && cd ~/agent-runs/nvidia/reference/U5
 python3 -m venv .venv && source .venv/bin/activate
 pip install usd-core
@@ -127,14 +127,14 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
 
 ## Scoring
 
-- **Outcome** and **root cause** use the categories in the [rubric](../../../../methods/agent-task-review/rubric.md), as of method version 0.2 for docs-only runs and 0.3 for docs+mcp runs. Under 0.3, a cited MCP result that is wrong or doesn't say what the agent claims scores `pass-with-issues`, the same as a cited page.
+- **Outcome** and **root cause** use the categories in the rubric, as of method [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/rubric.md) for docs-only runs and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/rubric.md) for docs+mcp runs. Under 0.3, a cited MCP result that is wrong or doesn't say what the agent claims scores `pass-with-issues`, the same as a cited page.
 - A task passes only if you rerun the agent's final `task.py` yourself in a clean folder and every success criterion is met. Copy only `task.py` into a new folder beside the agent's, for example `~/agent-runs/nvidia/2026-10-25-codex/U1-rerun/`, then run the commands for that task. For U1:
   ```bash
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
   python task.py > rerun-output.txt 2>&1
-  python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/check_u1.py scene.usda > check-output.txt
+  python ~/projects/agent-ready-nvidia/reviews/agent-task-review/check_u1.py scene.usda > check-output.txt
   pip show usd-core | grep -E '^(Name|Version):'
   ```
   For U2, create fresh asset files in the rerun folder first, so the rerun can't use the agent's copies:
@@ -142,7 +142,7 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
-  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  R=~/projects/agent-ready-nvidia/reviews/agent-task-review
   python $R/make_u2_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u2.py . > check-output.txt
@@ -153,7 +153,7 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
-  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  R=~/projects/agent-ready-nvidia/reviews/agent-task-review
   python $R/make_u3_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u3.py . > check-output.txt
@@ -164,7 +164,7 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
   python3 --version                # expect 3.12.3
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
-  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  R=~/projects/agent-ready-nvidia/reviews/agent-task-review
   python $R/make_u4_assets.py .
   python task.py > rerun-output.txt 2>&1
   python $R/check_u4.py . > check-output.txt
@@ -173,7 +173,7 @@ The reviewer confirmed the U2 to U4 references independently the same day, in `~
   For U5, rerun twice, on the main set in `U5-rerun/` and on the holdout set in `U5-rerun-holdout/`, copying only `task.py` into each. The holdout rerun shows whether the script works on files it hasn't seen (C6).
   ```bash
   python3 --version                # expect 3.12.3
-  R=~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review
+  R=~/projects/agent-ready-nvidia/reviews/agent-task-review
   cd ~/agent-runs/nvidia/<run_id>/U5-rerun
   python3 -m venv .venv && . .venv/bin/activate
   pip install usd-core
@@ -285,7 +285,7 @@ The agent must also run the script itself, report its output, and cite a page fo
 **Starting state:** empty folder plus the asset files. Before the session, create them in the run folder with [`make_u2_assets.py`](make_u2_assets.py), then start the agent. Don't show the agent the script.
 
 ```bash
-python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u2_assets.py .
+python ~/projects/agent-ready-nvidia/reviews/agent-task-review/make_u2_assets.py .
 ```
 
 That creates `table.usda` (a red 2 m cube) and `chair.usda` (a green 1 m cube, 3 m along x), each with its cube as the default prim.
@@ -345,7 +345,7 @@ The agent must also run the script itself, report its output, and cite a page fo
 **Starting state:** empty folder plus the asset file. Before the session, create it in the run folder with [`make_u3_assets.py`](make_u3_assets.py), then start the agent. Don't show the agent the script.
 
 ```bash
-python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u3_assets.py .
+python ~/projects/agent-ready-nvidia/reviews/agent-task-review/make_u3_assets.py .
 ```
 
 That creates `mug.usda`, a green cylinder 1 m tall, with the cylinder as its default prim.
@@ -407,7 +407,7 @@ The agent must also run the script itself, report its output, and cite a page fo
 **Starting state:** empty folder plus the asset file. Before the session, create it in the run folder with [`make_u4_assets.py`](make_u4_assets.py), then start the agent. Don't show the agent the script.
 
 ```bash
-python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u4_assets.py .
+python ~/projects/agent-ready-nvidia/reviews/agent-task-review/make_u4_assets.py .
 ```
 
 That creates `crate.usda`, a brown 1 m crate: an Xform with the cube as its child, so there's something below the instance for instancing to share.
@@ -468,7 +468,7 @@ The agent must also run the script itself, report its output, and cite a page fo
 **Starting state:** empty folder plus the main set. Before the session, create it in the run folder with [`make_u5_assets.py`](make_u5_assets.py), then start the agent. Don't show the agent the script, and don't create the holdout set in the agent's folder; it's only for the reruns.
 
 ```bash
-python ~/projects/agent-ready-docs/case-studies/nvidia/reviews/agent-task-review/make_u5_assets.py .
+python ~/projects/agent-ready-nvidia/reviews/agent-task-review/make_u5_assets.py .
 ```
 
 That creates seven top-level files and a `parts/` folder with two more.

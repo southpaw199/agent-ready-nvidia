@@ -2,7 +2,9 @@
 
 **Status: in progress.** Tier 1 is done, and its report is published; Tiers 2 and 3 are next.
 
-This case study applies the [agent task review](../../methods/agent-task-review/method.md) to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It runs in three tiers:
+Part of [agent-ready-docs](https://github.com/southpaw199/agent-ready-docs), which tests whether documentation works for AI agents as well as for people.
+
+This case study applies the [agent task review](https://github.com/southpaw199/agent-ready-docs/blob/main/methods/agent-task-review/method.md) to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It runs in three tiers:
 
 | Tier | What the agents do | Docs |
 | --- | --- | --- |
@@ -26,7 +28,7 @@ Two AI coding agents, Claude Code and Codex, each attempted five OpenUSD tasks u
 | U4 | Place 1,000 crates by plain reference and with instancing, compare them, and explain the tradeoff | Pass with issues | Pass with issues |
 | U5 | Write a script that flags missing stage metadata and broken references in any folder of .usda files | Pass with issues | Pass with issues |
 
-Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low"), run on October 25, 2026, with usd-core 26.11, under [method](../../methods/agent-task-review/method.md) version 0.2.
+Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low"), run on October 25, 2026, with usd-core 26.11, under [method](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) version 0.2.
 
 ### What the docs do well
 
@@ -50,3 +52,15 @@ Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol
 - **An agent's "it's not in the docs" needs checking too.** Twice, Claude Code said something wasn't documented when a page it had read covered it: the usd-core install steps (U1) and how relative paths resolve (U2).
 
 These results come from one run per agent per task and are a signal, not a verdict. **[Read the Tier 1 report](reviews/agent-task-review/report.md)** for the findings, including four minor ones, suggested fixes, how the two agents compared, and the limitations. The [run log](reviews/agent-task-review/run-log.csv) has a row per run, the [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
+
+## Use of AI tools
+
+AI coding assistants helped draft code and content in this repo. I ran, tested, and verified every example and every finding myself. Agent outputs are evidence to check, not results to trust.
+
+## License
+
+Created by Alan Sloan ([LinkedIn](https://www.linkedin.com/in/alansloan)).
+
+- **Code** (Python files, notebooks, and workflows) is licensed under the [MIT License](LICENSE).
+- **Written content** (methods, reports, findings, task definitions, and READMEs) is © 2026 Alan Sloan. All rights reserved: you may read and link to it, but not copy, republish, or adapt it without permission. See [COPYRIGHT.md](COPYRIGHT.md).
+- **Agent transcripts** in the `runs/` folders are records of each agent's output, included as evidence.

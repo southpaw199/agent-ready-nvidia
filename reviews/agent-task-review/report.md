@@ -2,7 +2,7 @@
 
 **Author:** Alan Sloan · [linkedin.com/in/alansloan](https://www.linkedin.com/in/alansloan) · [github.com/southpaw199](https://github.com/southpaw199)
 
-- **Method:** [agent task review](../../../../methods/agent-task-review/method.md), version 0.2 for the docs-only runs, and 0.3 for the reruns with NVIDIA's MCP server
+- **Method:** agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the reruns with NVIDIA's MCP server
 - **Agents:** Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low")
 - **Runs:** October 25, 2026, against the live docs at [openusd.org](https://openusd.org) and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/), with usd-core 26.11 from PyPI on Python 3.12.3. Rerun on October 26, 2026, with NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) server also available (commit `4ce780d`, Docker image `360aaf4962b4`).
 - **Findings checked against the live docs:** October 25, 2026; the MCP server's results, against usd-core 26.11 and the live docs, on October 26, 2026
@@ -22,7 +22,7 @@ The docs carried the agents a long way. Neither agent was told to use sublayers,
 | U4 | Place 1,000 crates by plain reference and with instancing, compare them, and explain the tradeoff | Pass with issues | Pass with issues |
 | U5 | Write a script that flags missing stage metadata and broken references in any folder of .usda files | Pass with issues | Pass with issues |
 
-"Pass with issues" means every success criterion was met, but the run relied on knowledge that isn't in the docs, or had a similar gap; see the [rubric](../../../../methods/agent-task-review/rubric.md). In this tier, that knowledge was almost always the Python spelling of an API the docs show only in C++.
+"Pass with issues" means every success criterion was met, but the run relied on knowledge that isn't in the docs, or had a similar gap; see the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/rubric.md). In this tier, that knowledge was almost always the Python spelling of an API the docs show only in C++.
 
 **With NVIDIA's USD Code MCP server added**, the same agents ran the same tasks a second time. Both used the server without being told to, in all ten runs. The outcomes barely changed: nine runs passed with issues, and one, Codex on U3, passed cleanly. The server's method lookups were accurate and filled some of the Python gaps, but they didn't close finding 1, which recurred in nine of the ten runs. Its search tools returned results too large to use whole, and some were wrong or came from other sites, though no agent relied on those. See [With NVIDIA's USD Code MCP server](#with-nvidias-usd-code-mcp-server).
 
@@ -120,7 +120,7 @@ Each cell gives the docs-only run first, then the run with the server.
 | U5 | Codex | with issues / with issues | 4 / 1.5 | 4 / 2 | 1: knowledge search | 7 / 6, and 0 / 0 |
 
 **Reading the table**
-- **Outcome** uses the [rubric](../../../../methods/agent-task-review/rubric.md): "with issues" means pass-with-issues.
+- **Outcome** uses the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/rubric.md): "with issues" means pass-with-issues.
 - **Time** is the session's length, from the prompt to the final answer. It includes the time spent waiting at approval prompts, so treat it as rough.
 - **Errors recovered** counts commands or fetches that failed and were then retried or worked around. Most of Codex's errors came from its sandbox blocking the network until a command was approved.
 - **MCP results cited** counts results an agent named as the source of a step.
@@ -190,4 +190,4 @@ Over ten runs per condition, adding the server didn't change whether the agents 
 
 ---
 
-© 2026 Alan Sloan. All rights reserved. You may read and link to this report; you may not copy, republish, or adapt it without permission. See [COPYRIGHT.md](../../../../COPYRIGHT.md).
+© 2026 Alan Sloan. All rights reserved. You may read and link to this report; you may not copy, republish, or adapt it without permission. See [COPYRIGHT.md](../../COPYRIGHT.md).
