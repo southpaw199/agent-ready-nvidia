@@ -21,7 +21,7 @@ Each run is scored pass, pass with issues, pass with hints, or fail, and each fi
 
 ## This review
 
-This review is Tier 1 of the NVIDIA case study: five hands-on OpenUSD tasks that run on a CPU. Omniverse and Isaac Sim, which need an RTX GPU, are covered by the question set in Tiers 2 and 3. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available.
+This review is Tier 1 of the NVIDIA case study: five hands-on OpenUSD tasks that run on a CPU. The case study was designed with two more tiers, questions answered from the Omniverse and Isaac Sim docs, since both need an RTX GPU to run. Those tiers are possible future projects, not work in progress. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available.
 
 | Detail | Value |
 | --- | --- |
@@ -217,7 +217,7 @@ Over ten runs per condition, adding the server didn't change whether the agents 
   - **Timing and order:** it ran a day later, with the same agent versions, models, settings, tasks, and checkers. Each rerun came after the same agent's docs-only run of that task, in a fresh session with memory off. The docs' entry points were rechecked that day and hadn't changed, but the pages weren't compared in full.
   - **One restart:** Claude Code's first U1 session was stopped before it read any page, and started again.
   - **Settings:** the server ran with its default settings, and result sizes may depend on settings that weren't tested.
-- **Hardware.** Tier 1 covers only what runs on a CPU. Omniverse and Isaac Sim come in Tiers 2 and 3, as questions answered from the docs.
+- **Hardware.** Tier 1 covers only what runs on a CPU, so this review says nothing about the Omniverse or Isaac Sim docs. Tiers 2 and 3 would cover them, as questions answered from the docs, if they go ahead.
 - **AI assistance.** Claude helped design the tasks, wrote the reference solutions and checkers, and helped draft this report. Claude is the same model family as one of the subject agents. The subject sessions saw only each task's prompt, never its success criteria, reference solution, checker, or this repository, and the session logs confirm they read nothing outside their own folders. The reviewer ran every reference solution and every checker test, and reran every agent's final code; every finding was checked against the live docs. Claude also ran the operator session for the MCP rerun, which checked every MCP result an agent relied on against usd-core 26.11 or the live docs.
 
 ## Files

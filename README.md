@@ -1,6 +1,6 @@
 # Case study: NVIDIA OpenUSD, Omniverse, and Isaac Sim
 
-**Status: in progress.** Tier 1 is done, including a rerun with NVIDIA's USD Code MCP server, and its report is published; Tiers 2 and 3 are next.
+**Status:** Tier 1 is complete, including a rerun with NVIDIA's USD Code MCP server, and its report is published. Tiers 2 and 3, on Omniverse and Isaac Sim, are possible future projects, not work in progress.
 
 ## About this review
 
@@ -21,13 +21,13 @@ Each run is scored pass, pass with issues, pass with hints, or fail, and each fi
 
 ## This case study
 
-This case study applies the agent task review to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It runs in three tiers:
+This case study applies the agent task review to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It was designed in three tiers, of which only Tier 1 has been run:
 
-| Tier | What the agents do | Docs |
-| --- | --- | --- |
-| 1 | Hands-on OpenUSD tasks U1 to U5, run on a CPU with the `usd-core` package from PyPI, then run again with NVIDIA's USD Code MCP server available | openusd.org and Learn OpenUSD |
-| 2 | Answer a set of 20 questions from the docs, with citations. Omniverse and Isaac Sim need an RTX GPU to run, so this tier is questions only. | Omniverse and Isaac Sim |
-| 3 | Answer the Isaac Sim setup questions from Tier 2 again with NVIDIA's `install-isaacsim` agent skill loaded, for comparison | Isaac Sim |
+| Tier | What the agents do | Docs | Status |
+| --- | --- | --- | --- |
+| 1 | Hands-on OpenUSD tasks U1 to U5, run on a CPU with the `usd-core` package from PyPI, then run again with NVIDIA's USD Code MCP server available | openusd.org and Learn OpenUSD | Complete |
+| 2 | Answer a set of 20 questions from the docs, with citations. Omniverse and Isaac Sim need an RTX GPU to run, so this tier is questions only. | Omniverse and Isaac Sim | Possible future project |
+| 3 | Answer the Isaac Sim setup questions from Tier 2 again with NVIDIA's `install-isaacsim` agent skill loaded, for comparison | Isaac Sim | Possible future project |
 
 | Folder | What it holds |
 | --- | --- |
