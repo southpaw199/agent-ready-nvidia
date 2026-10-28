@@ -1,38 +1,16 @@
-# NVIDIA OpenUSD: Agent Task Review Report, Tier 1
+# NVIDIA OpenUSD: agent task review report, Tier 1
 
 **Author:** Alan Sloan · [linkedin.com/in/alansloan](https://www.linkedin.com/in/alansloan) · [github.com/southpaw199](https://github.com/southpaw199)
 
-## About this review
-
-This case study is part of [agent-ready-docs](https://github.com/southpaw199/agent-ready-docs), a project that tests whether documentation works for AI agents as well as for people.
-
-More and more developers meet a product through an AI coding agent: they ask Claude Code or Codex to set something up, and the agent reads the docs for them. When the docs leave out a prerequisite, show an example that doesn't run, or document an API in only one language, the agent either gets stuck or fills the gap from memory. The developer may never know which happened.
-
-An [agent task review](https://github.com/southpaw199/agent-ready-docs/blob/main/methods/agent-task-review/method.md) tests docs the way agents use them:
-
-1. **Choose real tasks.** Four to six tasks a new developer would attempt, from first install to a production concern.
-2. **Limit the agent to the docs.** Each attempt starts in a clean environment, and the agent must cite every page it relies on.
-3. **Verify independently.** The reviewer reruns the agent's code and checks the result against written success criteria. An agent saying it succeeded isn't evidence that it did.
-4. **Check the sources.** Cited pages must say what the agent claims, and anything it used that isn't in the docs is recorded.
-5. **Use two agents.** A gap that two different agents hit is stronger evidence than one.
-6. **Report by root cause.** Each finding is traced to a cause, such as a missing prerequisite, an incomplete example, or a page the agent couldn't find, and comes with a specific fix. The report also credits what the docs do well.
-
-Each run is scored pass, pass with issues, pass with hints, or fail, and each finding is rated High, Medium, or Low severity, using a shared [rubric](https://github.com/southpaw199/agent-ready-docs/blob/main/methods/agent-task-review/rubric.md) so results can be compared across case studies.
-
-## This review
-
-This review is Tier 1 of the NVIDIA case study: five hands-on OpenUSD tasks that run on a CPU. The case study was designed with two more tiers, questions answered from the Omniverse and Isaac Sim docs, since both need an RTX GPU to run. Those tiers are possible future projects, not work in progress. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available.
-
-| Detail | Value |
-| --- | --- |
-| Method | Agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the reruns with NVIDIA's MCP server |
-| Agents | Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low") |
-| Runs | October 25, 2026, against the live docs at [openusd.org](https://openusd.org) and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/), with usd-core 26.11 from PyPI on Python 3.12.3. Rerun on October 26, 2026, with NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) server also available (commit `4ce780d`, Docker image `360aaf4962b4`). |
-| Findings checked against the live docs | October 25, 2026; the MCP server's results, against usd-core 26.11 and the live docs, on October 26, 2026 |
+- **Method:** agent task review, [version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md) for the docs-only runs, and [0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md) for the reruns with NVIDIA's MCP server
+- **Agents:** Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low")
+- **Runs:** October 25, 2026, against the live docs at [openusd.org](https://openusd.org) and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/), with usd-core 26.11 from PyPI on Python 3.12.3. Rerun on October 26, 2026, with NVIDIA's [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) server also available (commit `4ce780d`, Docker image `360aaf4962b4`).
+- **Findings checked against the live docs:** October 25, 2026; the MCP server's results, against usd-core 26.11 and the live docs, on October 26, 2026
+- **Scope:** Tier 1, five hands-on OpenUSD tasks that run on a CPU. Omniverse and Isaac Sim, which need an RTX GPU, are covered by the question set in Tiers 2 and 3.
 
 ## Summary
 
-Two AI coding agents, Claude Code and Codex, each attempted the same five OpenUSD tasks, using only openusd.org and Learn OpenUSD. **Both completed all five correctly, with no hints.** The tasks ran from a first stage to composition, variant sets, instancing, and a script that validates files. Every result was confirmed by rerunning the agent's final code in a clean folder, not by trusting its summary. For the last task, that included a rerun on a second set of files the agent never saw.
+Two AI coding agents from different companies each attempted the same five OpenUSD tasks, using only openusd.org and Learn OpenUSD. **Both completed all five correctly, with no hints.** The tasks ran from a first stage to composition, variant sets, instancing, and a script that validates files. Every result was confirmed by rerunning the agent's final code in a clean folder, not by trusting its summary. For the last task, that included a rerun on a second set of files the agent never saw.
 
 The docs carried the agents a long way. Neither agent was told to use sublayers, the session layer, or instancing, and both found them. The problems showed up in *how* they got there. **The openusd.org API reference shows C++ only, so in nine of the ten runs the agents wrote Python names that appear on no page they read.** Their guesses were right, but one agent said so each time and the other said everything came from the docs. And **neither agent found the validators that usd-core ships** for exactly the checks the last task asked for.
 
@@ -217,7 +195,7 @@ Over ten runs per condition, adding the server didn't change whether the agents 
   - **Timing and order:** it ran a day later, with the same agent versions, models, settings, tasks, and checkers. Each rerun came after the same agent's docs-only run of that task, in a fresh session with memory off. The docs' entry points were rechecked that day and hadn't changed, but the pages weren't compared in full.
   - **One restart:** Claude Code's first U1 session was stopped before it read any page, and started again.
   - **Settings:** the server ran with its default settings, and result sizes may depend on settings that weren't tested.
-- **Hardware.** Tier 1 covers only what runs on a CPU, so this review says nothing about the Omniverse or Isaac Sim docs. Tiers 2 and 3 would cover them, as questions answered from the docs, if they go ahead.
+- **Hardware.** Tier 1 covers only what runs on a CPU. Omniverse and Isaac Sim come in Tiers 2 and 3, as questions answered from the docs.
 - **AI assistance.** Claude helped design the tasks, wrote the reference solutions and checkers, and helped draft this report. Claude is the same model family as one of the subject agents. The subject sessions saw only each task's prompt, never its success criteria, reference solution, checker, or this repository, and the session logs confirm they read nothing outside their own folders. The reviewer ran every reference solution and every checker test, and reran every agent's final code; every finding was checked against the live docs. Claude also ran the operator session for the MCP rerun, which checked every MCP result an agent relied on against usd-core 26.11 or the live docs.
 
 ## Files
