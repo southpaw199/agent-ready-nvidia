@@ -1,6 +1,6 @@
-# Case study: NVIDIA OpenUSD, Omniverse, and Isaac Sim
+# Case study: NVIDIA OpenUSD
 
-**Status:** Tier 1 is complete, including a rerun with NVIDIA's USD Code MCP server, and its report is published. Tiers 2 and 3, on Omniverse and Isaac Sim, are possible future projects, not work in progress.
+**Status: complete.** The review, including a rerun with NVIDIA's USD Code MCP server, is done, and its report is published.
 
 ## About this review
 
@@ -21,19 +21,13 @@ Each run is scored pass, pass with issues, pass with hints, or fail, and each fi
 
 ## This case study
 
-This case study applies the agent task review to three related doc sets: [OpenUSD](https://openusd.org) with NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course, [Omniverse](https://docs.omniverse.nvidia.com), and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com). It was designed in three tiers, of which only Tier 1 has been run:
-
-| Tier | What the agents do | Docs | Status |
-| --- | --- | --- | --- |
-| 1 | Hands-on OpenUSD tasks U1 to U5, run on a CPU with the `usd-core` package from PyPI, then run again with NVIDIA's USD Code MCP server available | openusd.org and Learn OpenUSD | Complete |
-| 2 | Answer a set of 20 questions from the docs, with citations. Omniverse and Isaac Sim need an RTX GPU to run, so this tier is questions only. | Omniverse and Isaac Sim | Possible future project |
-| 3 | Answer the Isaac Sim setup questions from Tier 2 again with NVIDIA's `install-isaacsim` agent skill loaded, for comparison | Isaac Sim | Possible future project |
+This case study applies the agent task review to the [OpenUSD](https://openusd.org) docs and NVIDIA's [Learn OpenUSD](https://docs.nvidia.com/learn-openusd/latest/) course: five hands-on tasks, U1 to U5, run on a CPU with the `usd-core` package from PyPI. The agents then ran the same tasks again with NVIDIA's USD Code MCP server available.
 
 | Folder | What it holds |
 | --- | --- |
 | [`reviews/agent-task-review/`](reviews/agent-task-review/) | Tasks, success criteria, reference results, the run log, findings, and the report. |
 
-## Results in brief: Tier 1
+## Results in brief
 
 Two AI coding agents, Claude Code and Codex, each attempted five OpenUSD tasks using only openusd.org and Learn OpenUSD. **Both completed all five correctly, with no hints**, and the reviewer's own reruns of their code passed every check. All ten runs are scored pass with issues, mainly because both agents used Python API names that appear on none of the pages they read.
 
@@ -88,7 +82,18 @@ These are candidates, about the server rather than the docs.
 | F12 | Search results are too large to use | Low |
 | F14 | Sources beyond the official docs | Low |
 
-**[Read the Tier 1 report](reviews/agent-task-review/report.md)** for each finding's evidence and suggested fix, what the docs do well, the full comparison with the MCP server, how the two agents compared, and the limitations. The [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, the [run log](reviews/agent-task-review/run-log.csv) has a row per run, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
+**[Read the report](reviews/agent-task-review/report.md)** for each finding's evidence and suggested fix, what the docs do well, the full comparison with the MCP server, how the two agents compared, and the limitations. The [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, the [run log](reviews/agent-task-review/run-log.csv) has a row per run, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
+
+## A related case study: Omniverse and Isaac Sim
+
+NVIDIA's [Omniverse](https://docs.omniverse.nvidia.com) and [Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com) are built on OpenUSD: Omniverse describes its scenes in OpenUSD, and Isaac Sim is built on Omniverse. A separate case study could review their docs the same way. It's a possible future project, not work in progress.
+
+Both need an RTX GPU to run, so that case study would ask agents questions rather than give them tasks:
+
+- **Questions from the docs.** A set of 20 questions about Omniverse and Isaac Sim, answered from the docs, with citations.
+- **With NVIDIA's agent skill.** The Isaac Sim setup questions again, with NVIDIA's `install-isaacsim` agent skill loaded, for comparison.
+
+This review would be its starting point. Omniverse code calls the same OpenUSD Python API, so it could test, for example, whether Omniverse's docs show the Python names that openusd.org's API reference leaves out (F2).
 
 ## Use of AI tools
 

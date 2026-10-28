@@ -1,4 +1,4 @@
-# NVIDIA OpenUSD: Agent Task Review Report, Tier 1
+# NVIDIA OpenUSD: Agent Task Review Report
 
 **Author:** Alan Sloan · [linkedin.com/in/alansloan](https://www.linkedin.com/in/alansloan) · [github.com/southpaw199](https://github.com/southpaw199)
 
@@ -21,7 +21,7 @@ Each run is scored pass, pass with issues, pass with hints, or fail, and each fi
 
 ## This review
 
-This review is Tier 1 of the NVIDIA case study: five hands-on OpenUSD tasks that run on a CPU. The case study was designed with two more tiers, questions answered from the Omniverse and Isaac Sim docs, since both need an RTX GPU to run. Those tiers are possible future projects, not work in progress. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available.
+This review tested the OpenUSD docs, at openusd.org and in NVIDIA's Learn OpenUSD course, with five hands-on tasks that run on a CPU, from a first stage to a script that validates files. After the docs-only runs, the same tasks were run again with NVIDIA's USD Code MCP server available. The task file, findings log, and run records call the docs-only runs "Tier 1", a name from an earlier plan for this case study.
 
 | Detail | Value |
 | --- | --- |
@@ -168,10 +168,10 @@ NVIDIA publishes MCP servers for its documentation, and [USD Code MCP](https://g
 - **Errors recovered** counts commands or fetches that failed and were then retried or worked around. Most of Codex's errors came from its sandbox blocking the network until a command was approved.
 - **MCP results cited** counts results an agent named as the source of a step.
 
-**Tier 1 issues avoided, and new issues**
+**Docs-only issues avoided, and new issues**
 - **Finding 1, Python names from memory, recurred in nine of the ten runs.**
   - **Avoided once:** in Codex U3, every name came from the three openusd.org tutorials it read, which show the Python API, or from a method lookup it cited. That run is the only clean pass in the review.
-  - **Partly avoided:** in Claude Code U2, `GetPropertyStack`, which Tier 1 had used from memory, came from a method lookup. Other names were still from memory.
+  - **Partly avoided:** in Claude Code U2, `GetPropertyStack`, which the docs-only run had used from memory, came from a method lookup. Other names were still from memory.
   - **Undisclosed with Codex:** in four of its five runs, Codex again said nothing came from memory.
 - **Finding 2, the validators, held with the server too.** Neither agent's U5 run reached `UsdValidation`, and the server's validation content pointed only to `usdchecker`, as the docs do. It never pointed to the removed `UsdUtils.ComplianceChecker`, which was the main version risk.
 - **The issues that didn't occur in either condition still didn't occur:**
@@ -217,7 +217,7 @@ Over ten runs per condition, adding the server didn't change whether the agents 
   - **Timing and order:** it ran a day later, with the same agent versions, models, settings, tasks, and checkers. Each rerun came after the same agent's docs-only run of that task, in a fresh session with memory off. The docs' entry points were rechecked that day and hadn't changed, but the pages weren't compared in full.
   - **One restart:** Claude Code's first U1 session was stopped before it read any page, and started again.
   - **Settings:** the server ran with its default settings, and result sizes may depend on settings that weren't tested.
-- **Hardware.** Tier 1 covers only what runs on a CPU, so this review says nothing about the Omniverse or Isaac Sim docs. Tiers 2 and 3 would cover them, as questions answered from the docs, if they go ahead.
+- **Scope.** This review covers only OpenUSD, which runs on a CPU. Omniverse and Isaac Sim are built on OpenUSD but need an RTX GPU, and this review says nothing about their docs. A separate, related case study could cover them; the [README](../../README.md#a-related-case-study-omniverse-and-isaac-sim) describes it.
 - **AI assistance.** Claude helped design the tasks, wrote the reference solutions and checkers, and helped draft this report. Claude is the same model family as one of the subject agents. The subject sessions saw only each task's prompt, never its success criteria, reference solution, checker, or this repository, and the session logs confirm they read nothing outside their own folders. The reviewer ran every reference solution and every checker test, and reran every agent's final code; every finding was checked against the live docs. Claude also ran the operator session for the MCP rerun, which checked every MCP result an agent relied on against usd-core 26.11 or the live docs.
 
 ## Files
