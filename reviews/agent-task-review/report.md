@@ -46,7 +46,7 @@ The docs carried the agents a long way. Neither agent was told to use sublayers,
 
 "Pass with issues" means every success criterion was met, but the run relied on knowledge that isn't in the docs, or had a similar gap; see the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/rubric.md). In this tier, that knowledge was almost always the Python spelling of an API the docs show only in C++.
 
-**With NVIDIA's USD Code MCP server added**, the same agents ran the same tasks a second time. Both used the server without being told to, in all ten runs. The outcomes barely changed: nine runs passed with issues, and one, Codex on U3, passed cleanly. The server's method lookups were accurate and filled some of the Python gaps, but they didn't close finding 1, which recurred in nine of the ten runs. Its search tools returned results too large to use whole, and some were wrong or came from other sites, though no agent relied on those. See [With NVIDIA's USD Code MCP server](#with-nvidias-usd-code-mcp-server).
+**With NVIDIA's USD Code MCP server added**, the same agents ran the same tasks a second time. Both used the MCP server without being told to, in all ten runs. The outcomes barely changed: nine runs passed with issues, and one, Codex on U3, passed cleanly. The MCP server's method lookups were accurate and filled some of the Python gaps, but they didn't close finding 1, which recurred in nine of the ten runs. Its search tools returned results too large to use whole, and some were wrong or came from other sites, though no agent relied on those. See [With NVIDIA's USD Code MCP server](#with-nvidias-usd-code-mcp-server).
 
 ## What the docs do well
 
@@ -66,7 +66,7 @@ The docs carried the agents a long way. Neither agent was told to use sublayers,
 | **Medium** | The task succeeds, but only with knowledge the docs don't give or by a route they don't point to. |
 | **Low** | Friction or polish. |
 
-No finding about the docs is High. Two of the MCP server's candidate findings are, in [Server findings](#server-findings).
+No finding about the docs is High. Two of the MCP server's candidate findings are, in [MCP server findings](#mcp-server-findings).
 
 ### 1. The API reference doesn't show Python names
 
@@ -134,36 +134,36 @@ Both agents checked their own work beyond what was asked, such as checksums of t
 
 ## With NVIDIA's USD Code MCP server
 
-NVIDIA publishes MCP servers for its documentation, and [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) answers questions about the OpenUSD API and finds code examples. Its 7 tools search a knowledge base and a code-example base, and look up modules, classes, and methods. To see whether it helps, both agents ran all five tasks again with the server available. The tasks, prompts, checkers, and scoring were unchanged. The only addition to the agent's instructions was one paragraph saying the server was available, and asking the agent to name the tool and query behind any step that relied on it. The agent wasn't told to use it. The server ran locally with its default settings, and was registered only in each run's folder. The [task file](tasks.md#docsmcp-standard-instructions) has the exact wording.
+NVIDIA publishes MCP servers for its documentation, and [USD Code MCP](https://github.com/NVIDIA-Omniverse/kit-usd-agents/tree/4ce780d659078e7e7c12448778d3b05c842e6ffb/source/mcp/usd_code_mcp) answers questions about the OpenUSD API and finds code examples. Its 7 tools search a knowledge base and a code-example base, and look up modules, classes, and methods. To see whether it helps, both agents ran all five tasks again with the MCP server available. The tasks, prompts, checkers, and scoring were unchanged. The only addition to the agent's instructions was one paragraph saying the MCP server was available, and asking the agent to name the tool and query behind any step that relied on it. The agent wasn't told to use it. The MCP server ran locally with its default settings, and was registered only in each run's folder. The [task file](tasks.md#docsmcp-standard-instructions) has the exact wording.
 
 ### Results
 
 | Task | Agent | Docs given | Outcome | Time (min) | Errors recovered | MCP calls | Pages cited | MCP results cited |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | U1 | Claude Code | Docs only | With issues | 6 | 1 | — | 15 | — |
-| U1 | Claude Code | Docs and server | With issues | 8 | 2 | 3: code examples ×2, method lookup | 11 | 3 |
+| U1 | Claude Code | Docs and MCP server | With issues | 8 | 2 | 3: code examples ×2, method lookup | 11 | 3 |
 | U1 | Codex | Docs only | With issues | 3 | 4 | — | 10 | — |
-| U1 | Codex | Docs and server | With issues | 2 | 2 | 1: knowledge search | 9 | 0 |
+| U1 | Codex | Docs and MCP server | With issues | 2 | 2 | 1: knowledge search | 9 | 0 |
 | U2 | Claude Code | Docs only | With issues | 4 | 2 | — | 11 | — |
-| U2 | Claude Code | Docs and server | With issues | 5 | 1 | 2: code examples, method lookup | 6 | 2 |
+| U2 | Claude Code | Docs and MCP server | With issues | 5 | 1 | 2: code examples, method lookup | 6 | 2 |
 | U2 | Codex | Docs only | With issues | 5 | 2 | — | 7 | — |
-| U2 | Codex | Docs and server | With issues | 2.5 | 2 | 2: knowledge search, code examples | 8 | 1 |
+| U2 | Codex | Docs and MCP server | With issues | 2.5 | 2 | 2: knowledge search, code examples | 8 | 1 |
 | U3 | Claude Code | Docs only | With issues | 5 | 0 | — | 11 | — |
-| U3 | Claude Code | Docs and server | With issues | 6 | 3 | 2: code examples, method lookup | 7 | 1 |
+| U3 | Claude Code | Docs and MCP server | With issues | 6 | 3 | 2: code examples, method lookup | 7 | 1 |
 | U3 | Codex | Docs only | With issues | 3 | 2 | — | 7 | — |
-| U3 | Codex | Docs and server | **Pass** | 1.5 | 2 | 2: knowledge search, method lookup | 3 | 1 |
+| U3 | Codex | Docs and MCP server | **Pass** | 1.5 | 2 | 2: knowledge search, method lookup | 3 | 1 |
 | U4 | Claude Code | Docs only | With issues | 5 | 0 | — | 12 | — |
-| U4 | Claude Code | Docs and server | With issues | 3 | 1 | 2: method lookup ×2 | 8 | 2 |
+| U4 | Claude Code | Docs and MCP server | With issues | 3 | 1 | 2: method lookup ×2 | 8 | 2 |
 | U4 | Codex | Docs only | With issues | 6 | 3 | — | 7 | — |
-| U4 | Codex | Docs and server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
+| U4 | Codex | Docs and MCP server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
 | U5 | Claude Code | Docs only | With issues | 4 | 0 | — | 8 | — |
-| U5 | Claude Code | Docs and server | With issues | 3.5 | 1 | 5: knowledge search ×2, method lookup ×3 | 7 | 3 |
+| U5 | Claude Code | Docs and MCP server | With issues | 3.5 | 1 | 5: knowledge search ×2, method lookup ×3 | 7 | 3 |
 | U5 | Codex | Docs only | With issues | 4 | 4 | — | 7 | — |
-| U5 | Codex | Docs and server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
+| U5 | Codex | Docs and MCP server | With issues | 1.5 | 2 | 1: knowledge search | 6 | 0 |
 
 **Reading the table**
 - **Outcome** uses the [rubric](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/rubric.md): "With issues" means pass-with-issues.
-- **MCP calls** and **MCP results cited** don't apply to docs-only runs, which had no server.
+- **MCP calls** and **MCP results cited** don't apply to docs-only runs, which had no MCP server.
 - **Time** is the session's length, from the prompt to the final answer. It includes the time spent waiting at approval prompts, so treat it as rough.
 - **Errors recovered** counts commands or fetches that failed and were then retried or worked around. Most of Codex's errors came from its sandbox blocking the network until a command was approved.
 - **MCP results cited** counts results an agent named as the source of a step.
@@ -173,22 +173,22 @@ NVIDIA publishes MCP servers for its documentation, and [USD Code MCP](https://g
   - **Avoided once:** in Codex U3, every name came from the three openusd.org tutorials it read, which show the Python API, or from a method lookup it cited. That run is the only clean pass in the review.
   - **Partly avoided:** in Claude Code U2, `GetPropertyStack`, which the docs-only run had used from memory, came from a method lookup. Other names were still from memory.
   - **Undisclosed with Codex:** in four of its five runs, Codex again said nothing came from memory.
-- **Finding 2, the validators, held with the server too.** Neither agent's U5 run reached `UsdValidation`, and the server's validation content pointed only to `usdchecker`, as the docs do. It never pointed to the removed `UsdUtils.ComplianceChecker`, which was the main version risk.
+- **Finding 2, the validators, held with the MCP server too.** Neither agent's U5 run reached `UsdValidation`, and the MCP server's validation content pointed only to `usdchecker`, as the docs do. It never pointed to the removed `UsdUtils.ComplianceChecker`, which was the main version risk.
 - **The issues that didn't occur in either condition still didn't occur:**
   - deprecated APIs and warnings the agent didn't report;
   - missing stage metadata or extent in U1.
-- **One new issue came from the server.** Its search results were too large for Claude Code to pass to the agent, so Claude Code saved them to files outside the run folder. In U1 to U3, the agent read or tried to read them there, against its instructions (F12). Codex cut the same results short instead, and stayed in its folder.
+- **One new issue came from the MCP server.** Its search results were too large for Claude Code to pass to the agent, so Claude Code saved them to files outside the run folder. In U1 to U3, the agent read or tried to read them there, against its instructions (F12). Codex cut the same results short instead, and stayed in its folder.
 - **No wrong result was relied on.** Every MCP result an agent cited held up against usd-core 26.11 or the live docs.
 
-### What the server does well
+### What the MCP server does well
 
 - **Accurate method lookups.** Every `get_usd_method_detail` result an agent relied on matched usd-core 26.11, gave the Python name and signature, and was small enough to pass to the agent whole. That's what the API reference lacks (finding 1).
 - **Used without prompting.** Both agents chose to use it in every task, 21 calls in all. Codex's queries even asked for the two allowed sites.
-- **No outdated API.** In U5, it didn't suggest `ComplianceChecker`, which the server's older glossaries might have.
+- **No outdated API.** In U5, it didn't suggest `ComplianceChecker`, which the MCP server's older glossaries might have.
 
-### Server findings
+### MCP server findings
 
-These are candidates, found while setting up the server or in the reruns. They're about the server, not the docs. They use the same severity scale as the docs findings, and are sorted by severity. The full evidence is in the [findings log](findings.md).
+These are candidates, found while setting up the MCP server or in the reruns. They're about the MCP server, not the docs. They use the same severity scale as the docs findings, and are sorted by severity. The full evidence is in the [findings log](findings.md).
 
 | ID | Finding | Severity | Suggested fix |
 | --- | --- | --- | --- |
@@ -196,14 +196,14 @@ These are candidates, found while setting up the server or in the reruns. They'r
 | F11 | **displayColor examples author the wrong attribute.** 8 of 35 examples in one result create a plain `displayColor` attribute, so the object isn't colored. Copying one would fail U1's color check. | High | Correct or remove those examples, so every displayColor example authors the `primvars:displayColor` primvar, for example with `CreateDisplayColorAttr()`. |
 | F7 | **The README's quickstart fails on a stock Ubuntu 24.04 system.** It fails four ways: its scripts aren't executable, Poetry is missing from the prerequisites, `pip install --user` is blocked, and the health check needs `aiohttp`. | Medium | Commit the scripts as executable, or say `bash build-docker.sh`; add Poetry and Python's `build` module to the prerequisites; build in a virtual environment instead of the system Python; and say how to install `aiohttp` for the health check, or rewrite it with the standard library. |
 | F13 | **Examples from Windows test code.** 57 of 88 examples in one result build paths under `C:/usd/`. The top sublayer example adds a missing path instead of the layer it created. | Medium | Replace the `C:/usd/` paths with relative or temporary ones, and fix the top sublayer example to add the layer it creates. |
-| F8 | **The README gives two tool counts.** It says both 7 and 34 tools; the server has 7. | Low | Give one count; if 34 counts the tools across all the repo's MCP servers, say so. |
+| F8 | **The README gives two tool counts.** It says both 7 and 34 tools; the MCP server has 7. | Low | Give one count; if 34 counts the tools across all the repo's MCP servers, say so. |
 | F10 | **Method lookups can return the wrong methods.** In one call, two of three names returned other classes' methods. | Low | Match method names exactly within the requested class, including methods it inherits, and label each result with the class it documents. |
 | F12 | **Search results are too large to use.** Every `search_usd_code_examples` and `search_usd_knowledge` result was 45,000 to 66,000 tokens, or 70 to 120 KB, and up to 90 examples. Claude Code saved them outside the run folder and twice gave up on them. Codex passed the agent only the start. | Low | Return fewer examples by default, with a way to ask for more. |
 | F14 | **Sources beyond the official docs.** Knowledge results mix openusd.org with GitHub repositories, including the third-party *VFX-UsdSurvivalGuide*, and Remedy Entertainment's *USD Book*. That held even when the query asked for the two allowed sites only. All five Codex sessions noticed and excluded them. | Low | Label each entry as official docs or another source, and offer a way to limit results to official docs. |
 
 ### Conclusions
 
-Over ten runs per condition, adding the server didn't change whether the agents completed the tasks: every run in both conditions met every success criterion with no hints. Its method lookups were the most useful part, and gave the one clean pass, but they didn't close the Python gap in the docs, which recurred in nine of ten runs. Its search tools need work: their results were too large to use whole, and some were wrong or from other sites, though the agents relied on none of them. For the docs, the better fix is still finding 1's: a page on how C++ names map to Python.
+Over ten runs per condition, adding the MCP server didn't change whether the agents completed the tasks: every run in both conditions met every success criterion with no hints. Its method lookups were the most useful part, and gave the one clean pass, but they didn't close the Python gap in the docs, which recurred in nine of ten runs. Its search tools need work: their results were too large to use whole, and some were wrong or from other sites, though the agents relied on none of them. For the docs, the better fix is still finding 1's: a page on how C++ names map to Python.
 
 ## Limitations
 
@@ -216,7 +216,7 @@ Over ten runs per condition, adding the server didn't change whether the agents 
 - **The MCP rerun.**
   - **Timing and order:** it ran a day later, with the same agent versions, models, settings, tasks, and checkers. Each rerun came after the same agent's docs-only run of that task, in a fresh session with memory off. The docs' entry points were rechecked that day and hadn't changed, but the pages weren't compared in full.
   - **One restart:** Claude Code's first U1 session was stopped before it read any page, and started again.
-  - **Settings:** the server ran with its default settings, and result sizes may depend on settings that weren't tested.
+  - **Settings:** the MCP server ran with its default settings, and result sizes may depend on settings that weren't tested.
 - **Scope.** This review covers only OpenUSD, which runs on a CPU. Omniverse and Isaac Sim are built on OpenUSD but need an RTX GPU, and this review says nothing about their docs. A separate, related case study could cover them; the [README](../../README.md#a-related-case-study-omniverse-and-isaac-sim) describes it.
 - **AI assistance.** Claude helped design the tasks, wrote the reference solutions and checkers, and helped draft this report. Claude is the same model family as one of the subject agents. The subject sessions saw only each task's prompt, never its success criteria, reference solution, checker, or this repository, and the session logs confirm they read nothing outside their own folders. The reviewer ran every reference solution and every checker test, and reran every agent's final code; every finding was checked against the live docs. Claude also ran the operator session for the MCP rerun, which checked every MCP result an agent relied on against usd-core 26.11 or the live docs.
 
@@ -226,7 +226,7 @@ Over ten runs per condition, adding the server didn't change whether the agents 
 - [Run log](run-log.csv): one row per attempt
 - [Findings log](findings.md): evidence, status, and severity for each finding
 - Runs: [Claude Code](runs/2026-10-25-claude-code/) and [Codex](runs/2026-10-25-codex/), with each task's code, transcript, and the reviewer's rerun output and check results
-- MCP reruns: [Claude Code](runs/2026-10-26-claude-code-mcp/) and [Codex](runs/2026-10-26-codex-mcp/), laid out the same way, and the server's [tool list](mcp/usd-code-mcp-tools.json)
+- MCP reruns: [Claude Code](runs/2026-10-26-claude-code-mcp/) and [Codex](runs/2026-10-26-codex-mcp/), laid out the same way, and the MCP server's [tool list](mcp/usd-code-mcp-tools.json)
 
 ---
 
