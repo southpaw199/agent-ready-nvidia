@@ -1,4 +1,4 @@
-# NVIDIA OpenUSD: agent task review report, Tier 1
+# NVIDIA OpenUSD: Agent Task Review Report, Tier 1
 
 **Author:** Alan Sloan · [linkedin.com/in/alansloan](https://www.linkedin.com/in/alansloan) · [github.com/southpaw199](https://github.com/southpaw199)
 
