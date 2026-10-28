@@ -44,13 +44,13 @@ Both agents then ran the same tasks again with NVIDIA's [USD Code MCP](https://g
 | Agent | Docs given | U1 | U2 | U3 | U4 | U5 |
 | --- | --- | --- | --- | --- | --- | --- |
 | Claude Code | Docs only | With issues | With issues | With issues | With issues | With issues |
-| Claude Code | Docs and server | With issues | With issues | With issues | With issues | With issues |
+| Claude Code | Docs and MCP server | With issues | With issues | With issues | With issues | With issues |
 | Codex | Docs only | With issues | With issues | With issues | With issues | With issues |
-| Codex | Docs and server | With issues | With issues | **Pass** | With issues | With issues |
+| Codex | Docs and MCP server | With issues | With issues | **Pass** | With issues | With issues |
 
 "With issues" means pass with issues: every success criterion was met with no hints, but the run relied on knowledge not in the docs, or had a similar gap.
 
-The docs-only runs were on October 25, 2026, under [method version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md), and the reruns with the server on October 26, under [version 0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md). Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low"), with usd-core 26.11.
+The docs-only runs were on October 25, 2026, under [method version 0.2](https://github.com/southpaw199/agent-ready-docs/blob/v0.2/methods/agent-task-review/method.md), and the reruns with the MCP server on October 26, under [version 0.3](https://github.com/southpaw199/agent-ready-docs/blob/v0.3/methods/agent-task-review/method.md). Agents: Claude Code 2.1.310 (claude-opus-5-5) and Codex CLI 0.164.0 (GPT-6.1-Sol, reasoning "low"), with usd-core 26.11.
 
 ## Findings
 
@@ -69,7 +69,7 @@ No finding about the docs is High.
 
 ### NVIDIA's USD Code MCP server
 
-These are candidates, about the server rather than the docs.
+These are candidates, about the MCP server rather than the docs.
 
 | ID | Finding | Severity |
 | --- | --- | --- |
