@@ -1,0 +1,21 @@
+case_study_number: 2
+title: "NVIDIA OpenUSD: Agent Task Review Report"
+question: "Does an MCP server fill the gaps in your docs?"
+stats:
+  - number: "9/10"
+    text: "docs-only runs used Python names that appear on no page the agent read"
+  - number: "21"
+    text: "MCP server calls, all unprompted; one run improved to a clean pass"
+details:
+  - label: "Agents"
+    value: "Claude Code and Codex"
+  - label: "Tasks"
+    value: "Five, from a first stage to a script that validates a folder of files"
+  - label: "Runs"
+    value: "October 25, 2026, docs only, against openusd.org and Learn OpenUSD, with usd-core 26.11; rerun October 26 with NVIDIA's USD Code MCP server"
+  - label: "Method"
+    value: "Agent task review, versions 0.2 and 0.3"
+  - label: "Report release"
+    value: "October 29, 2026"
+method_steps: ["real tasks", "docs only", "+ MCP server", "rerun", "findings with fixes"]
+repo: "github.com/southpaw199/agent-ready-nvidia"
