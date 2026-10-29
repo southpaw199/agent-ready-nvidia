@@ -2,6 +2,8 @@
 
 **Status: complete.** The review, including a rerun with NVIDIA's USD Code MCP server, is done, and its report is published.
 
+**[Download the report (PDF)](https://github.com/southpaw199/agent-ready-nvidia/releases/latest/download/Alan-Sloan_NVIDIA-OpenUSD-Agent-Task-Review.pdf)** · [Read it online](reviews/agent-task-review/report.md)
+
 ## About this review
 
 This case study is part of [agent-ready-docs](https://github.com/southpaw199/agent-ready-docs), a project that tests whether documentation works for AI agents as well as for people.
@@ -82,7 +84,7 @@ These are candidates, about the MCP server rather than the docs.
 | F12 | Search results are too large to use | Low |
 | F14 | Sources beyond the official docs | Low |
 
-**[Read the report](reviews/agent-task-review/report.md)** for each finding's evidence and suggested fix, what the docs do well, the full comparison with the MCP server, how the two agents compared, and the limitations. The [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, the [run log](reviews/agent-task-review/run-log.csv) has a row per run, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
+**[Read the report](reviews/agent-task-review/report.md)** (or [download it as a PDF](https://github.com/southpaw199/agent-ready-nvidia/releases/latest/download/Alan-Sloan_NVIDIA-OpenUSD-Agent-Task-Review.pdf)) for each finding's evidence and suggested fix, what the docs do well, the full comparison with the MCP server, how the two agents compared, and the limitations. The [findings log](reviews/agent-task-review/findings.md) has the evidence for each finding, the [run log](reviews/agent-task-review/run-log.csv) has a row per run, and the [runs](reviews/agent-task-review/runs/) folder has each agent's code and transcript.
 
 ## A related case study: Omniverse and Isaac Sim
 
